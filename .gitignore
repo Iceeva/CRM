@@ -1,0 +1,36 @@
+# Dependances
+node_modules/
+.pnp
+.pnp.js
+
+# Variables d'environnement (ne jamais committer de secrets)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Builds
+frontend/build/
+dist/
+coverage/
+
+# Vercel
+.vercel/
+
+# Prisma
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# Logs
+*.log
+npm-debug.log*
+
+# Donnees runtime
+backend/data/*.runtime.json
+
+# Systeme
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
