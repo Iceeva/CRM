@@ -1,0 +1,25 @@
+// ============================================================================
+//  CRM Pro - Schema Prisma (PostgreSQL / Neon)
+// ============================================================================
+//  Documentation complete : docs/DATABASE.md
+//
+//  Points importants :
+//   - DATABASE_URL : URL poolee Neon (host contenant "-pooler"), utilisee par
+//     l'application a l'execution (compatible serverless / Vercel).
+//   - DIRECT_URL   : URL directe Neon (sans "-pooler"), utilisee uniquement par
+//     la CLI Prisma pour les migrations.
+//   - Les noms de champs restent en snake_case pour garder exactement le meme
+//     format JSON que l'API historique et que le mode de secours JSON.
+// ============================================================================
+
+generator client {
+  provider      = "prisma-client-js"
+  // "native" pour le poste de dev, "rhel-openssl-3.0.x" pour les fonctions Vercel
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
