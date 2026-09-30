@@ -1,5 +1,5 @@
 /**
- * context/AuthContext.js — Contexte d'authentification global
+ * context/AuthContext.js - Contexte d'authentification global
  */
 import { createContext, useState, useEffect, useCallback } from "react";
 import api from "../services/api";

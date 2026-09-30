@@ -1,5 +1,5 @@
 /**
- * pages/Clients.jsx — Liste des clients avec CRUD
+ * pages/Clients.jsx - Liste des clients avec CRUD
  */
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -183,8 +183,8 @@ export default function Clients() {
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-500 hidden md:table-cell">{c.email}</td>
-                    <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">{c.entreprise || "—"}</td>
-                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">{c.telephone || "—"}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">{c.entreprise || "-"}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">{c.telephone || "-"}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`text-xs px-2 py-0.5 rounded-full font-medium ${

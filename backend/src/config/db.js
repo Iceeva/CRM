@@ -1,5 +1,5 @@
 /**
- * config/db.js — Connexion PostgreSQL
+ * config/db.js - Connexion PostgreSQL
  * Tente de se connecter au démarrage.
  * Exporte le pool + un flag `isConnected`.
  */
@@ -45,7 +45,7 @@ function startHealthCheck(interval = 30000) {
     const wasBefore = isConnected;
     await testConnection();
     if (!wasBefore && isConnected) {
-      console.log("🔄  PostgreSQL rétabli — bascule automatique");
+      console.log("🔄  PostgreSQL rétabli - bascule automatique");
     }
   }, interval);
 }

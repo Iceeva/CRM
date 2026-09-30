@@ -1,5 +1,5 @@
 /**
- * controllers/interactionsController.js — Interactions (appels, emails, notes)
+ * controllers/interactionsController.js - Interactions (appels, emails, notes)
  */
 const storage = require("../services/storageService");
 const { v4: uuidv4 } = require("uuid");

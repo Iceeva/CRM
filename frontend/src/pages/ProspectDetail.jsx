@@ -1,5 +1,5 @@
 /**
- * pages/ProspectDetail.jsx — Fiche prospect avec interactions
+ * pages/ProspectDetail.jsx - Fiche prospect avec interactions
  */
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -116,15 +116,15 @@ export default function ProspectDetail() {
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6 text-sm">
           <div>
             <p className="text-gray-400 text-xs">Email</p>
-            <p className="font-medium text-gray-700">{prospect.email || "—"}</p>
+            <p className="font-medium text-gray-700">{prospect.email || "-"}</p>
           </div>
           <div>
             <p className="text-gray-400 text-xs">Téléphone</p>
-            <p className="font-medium text-gray-700">{prospect.telephone || "—"}</p>
+            <p className="font-medium text-gray-700">{prospect.telephone || "-"}</p>
           </div>
           <div>
             <p className="text-gray-400 text-xs">Source</p>
-            <p className="font-medium text-gray-700 capitalize">{prospect.source || "—"}</p>
+            <p className="font-medium text-gray-700 capitalize">{prospect.source || "-"}</p>
           </div>
           <div>
             <p className="text-gray-400 text-xs">Créé le</p>

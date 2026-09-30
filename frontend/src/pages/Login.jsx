@@ -1,5 +1,5 @@
 /**
- * pages/Login.jsx — Page de connexion
+ * pages/Login.jsx - Page de connexion
  */
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 /**
- * controllers/clientsController.js — CRUD Clients
+ * controllers/clientsController.js - CRUD Clients
  */
 const storage = require("../services/storageService");
 const { v4: uuidv4 } = require("uuid");

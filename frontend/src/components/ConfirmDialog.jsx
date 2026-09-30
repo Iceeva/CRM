@@ -1,5 +1,5 @@
 /**
- * components/ConfirmDialog.jsx — Dialogue de confirmation
+ * components/ConfirmDialog.jsx - Dialogue de confirmation
  */
 export default function ConfirmDialog({ isOpen, onClose, onConfirm, title, message }) {
   if (!isOpen) return null;

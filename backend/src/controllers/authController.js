@@ -1,5 +1,5 @@
 /**
- * controllers/authController.js — Inscription, connexion, profil
+ * controllers/authController.js - Inscription, connexion, profil
  */
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");

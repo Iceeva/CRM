@@ -1,5 +1,5 @@
 /**
- * components/Pagination.jsx — Composant de pagination
+ * components/Pagination.jsx - Composant de pagination
  */
 export default function Pagination({ page, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;

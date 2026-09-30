@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * init-data.js — Hash les mots de passe des utilisateurs de démo dans data.json
+ * init-data.js - Hash les mots de passe des utilisateurs de démo dans data.json
  * Usage : cd backend && npm install && node init-data.js
  */
 const bcrypt = require("bcryptjs");

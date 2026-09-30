@@ -1,5 +1,5 @@
 /**
- * server.js — Point d'entrée du backend CRM
+ * server.js - Point d'entrée du backend CRM
  *
  * 1. Charge les variables d'environnement
  * 2. Tente la connexion PostgreSQL
@@ -60,7 +60,7 @@ const PORT = process.env.PORT || 5000;
 
 async function start() {
   console.log("──────────────────────────────────────────");
-  console.log("  🏢  CRM Pro — Démarrage du serveur");
+  console.log("  🏢  CRM Pro - Démarrage du serveur");
   console.log("──────────────────────────────────────────");
 
   // Tenter PostgreSQL

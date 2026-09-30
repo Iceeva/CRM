@@ -1,5 +1,5 @@
 /**
- * components/Layout.jsx — Layout principal avec sidebar + header
+ * components/Layout.jsx - Layout principal avec sidebar + header
  */
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";

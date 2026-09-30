@@ -1,5 +1,5 @@
 /**
- * config/jsonStore.js — Stockage JSON local (fallback)
+ * config/jsonStore.js - Stockage JSON local (fallback)
  * Lecture / écriture thread-safe dans data/data.json.
  */
 const fs = require("fs");

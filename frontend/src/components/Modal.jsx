@@ -1,5 +1,5 @@
 /**
- * components/Modal.jsx — Modal réutilisable
+ * components/Modal.jsx - Modal réutilisable
  */
 export default function Modal({ isOpen, onClose, title, children, size = "md" }) {
   if (!isOpen) return null;

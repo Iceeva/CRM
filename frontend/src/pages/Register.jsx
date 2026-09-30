@@ -1,5 +1,5 @@
 /**
- * pages/Register.jsx — Page d'inscription
+ * pages/Register.jsx - Page d'inscription
  */
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";

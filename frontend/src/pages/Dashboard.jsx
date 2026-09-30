@@ -1,5 +1,5 @@
 /**
- * pages/Dashboard.jsx — Tableau de bord avec statistiques
+ * pages/Dashboard.jsx - Tableau de bord avec statistiques
  */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";

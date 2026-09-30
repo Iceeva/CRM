@@ -1,5 +1,5 @@
 /**
- * components/SearchBar.jsx — Barre de recherche avec debounce
+ * components/SearchBar.jsx - Barre de recherche avec debounce
  */
 import { useState, useEffect } from "react";
 

@@ -1,5 +1,5 @@
 /**
- * pages/Interactions.jsx — Liste de toutes les interactions
+ * pages/Interactions.jsx - Liste de toutes les interactions
  */
 import { useState, useEffect, useCallback } from "react";
 import api from "../services/api";
@@ -137,7 +137,7 @@ export default function Interactions() {
       const p = prospects.find((pr) => pr.id === i.prospect_id);
       return p ? `🎯 ${p.nom}` : "Prospect inconnu";
     }
-    return "—";
+    return "-";
   };
 
   return (
@@ -264,7 +264,7 @@ export default function Interactions() {
                 onChange={(e) => setForm({ ...form, client_id: e.target.value, prospect_id: "" })}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
               >
-                <option value="">— Aucun —</option>
+                <option value="">- Aucun -</option>
                 {clients.map((c) => (
                   <option key={c.id} value={c.id}>{c.nom}</option>
                 ))}
@@ -277,7 +277,7 @@ export default function Interactions() {
                 onChange={(e) => setForm({ ...form, prospect_id: e.target.value, client_id: "" })}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
               >
-                <option value="">— Aucun —</option>
+                <option value="">- Aucun -</option>
                 {prospects.map((p) => (
                   <option key={p.id} value={p.id}>{p.nom}</option>
                 ))}

@@ -1,5 +1,5 @@
 /**
- * controllers/prospectsController.js — CRUD Prospects + conversion
+ * controllers/prospectsController.js - CRUD Prospects + conversion
  */
 const storage = require("../services/storageService");
 const { v4: uuidv4 } = require("uuid");
@@ -97,7 +97,7 @@ exports.remove = async (req, res) => {
 };
 
 /**
- * POST /api/prospects/:id/convert  — Convertir un prospect en client
+ * POST /api/prospects/:id/convert  - Convertir un prospect en client
  */
 exports.convert = async (req, res) => {
   try {

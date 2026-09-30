@@ -1,5 +1,5 @@
 /**
- * pages/Opportunities.jsx — Gestion des opportunités commerciales
+ * pages/Opportunities.jsx - Gestion des opportunités commerciales
  */
 import { useState, useEffect, useCallback } from "react";
 import api from "../services/api";
@@ -125,7 +125,7 @@ export default function Opportunities() {
 
   const getClientName = (cid) => {
     const c = clients.find((cl) => cl.id === cid);
-    return c ? c.nom : "—";
+    return c ? c.nom : "-";
   };
 
   // Total montant affiché
@@ -137,7 +137,7 @@ export default function Opportunities() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Opportunités</h1>
           <p className="text-gray-500 text-sm mt-1">
-            {total} opportunité{total > 1 ? "s" : ""} — Total :{" "}
+            {total} opportunité{total > 1 ? "s" : ""} - Total :{" "}
             <span className="font-semibold text-gray-700">
               {totalMontant.toLocaleString("fr-FR")} €
             </span>
@@ -241,7 +241,7 @@ export default function Opportunities() {
                 onChange={(e) => setForm({ ...form, client_id: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
               >
-                <option value="">— Aucun —</option>
+                <option value="">- Aucun -</option>
                 {clients.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.nom}

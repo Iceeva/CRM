@@ -1,5 +1,5 @@
 /**
- * pages/Prospects.jsx — Liste des prospects avec CRUD + conversion
+ * pages/Prospects.jsx - Liste des prospects avec CRUD + conversion
  */
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -191,8 +191,8 @@ export default function Prospects() {
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-500 hidden md:table-cell">{p.email}</td>
-                    <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">{p.entreprise || "—"}</td>
-                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell capitalize">{p.source || "—"}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">{p.entreprise || "-"}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell capitalize">{p.source || "-"}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`text-xs px-2 py-0.5 rounded-full font-medium ${

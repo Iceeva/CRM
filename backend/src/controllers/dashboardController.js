@@ -1,5 +1,5 @@
 /**
- * controllers/dashboardController.js — Statistiques pour le tableau de bord
+ * controllers/dashboardController.js - Statistiques pour le tableau de bord
  */
 const storage = require("../services/storageService");
 
@@ -68,7 +68,7 @@ exports.getStats = async (req, res) => {
 };
 
 /**
- * GET /api/dashboard/status — État du stockage (pour le frontend)
+ * GET /api/dashboard/status - État du stockage (pour le frontend)
  */
 exports.getStatus = async (req, res) => {
   res.json({

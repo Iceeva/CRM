@@ -1,5 +1,5 @@
 /**
- * pages/ClientDetail.jsx — Fiche client avec interactions et opportunités
+ * pages/ClientDetail.jsx - Fiche client avec interactions et opportunités
  */
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -101,11 +101,11 @@ export default function ClientDetail() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-sm">
           <div>
             <p className="text-gray-400 text-xs">Email</p>
-            <p className="font-medium text-gray-700">{client.email || "—"}</p>
+            <p className="font-medium text-gray-700">{client.email || "-"}</p>
           </div>
           <div>
             <p className="text-gray-400 text-xs">Téléphone</p>
-            <p className="font-medium text-gray-700">{client.telephone || "—"}</p>
+            <p className="font-medium text-gray-700">{client.telephone || "-"}</p>
           </div>
           <div>
             <p className="text-gray-400 text-xs">Depuis</p>

@@ -1,5 +1,5 @@
 /**
- * middlewares/auth.js — Vérification JWT
+ * middlewares/auth.js - Vérification JWT
  */
 const jwt = require("jsonwebtoken");
 

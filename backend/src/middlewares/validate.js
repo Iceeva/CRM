@@ -1,5 +1,5 @@
 /**
- * middlewares/validate.js — Validation express-validator
+ * middlewares/validate.js - Validation express-validator
  */
 const { validationResult } = require("express-validator");
 

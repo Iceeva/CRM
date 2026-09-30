@@ -1,5 +1,5 @@
 /**
- * scripts/initDb.js — Crée les tables PostgreSQL + insère des données de démo
+ * scripts/initDb.js - Crée les tables PostgreSQL + insère des données de démo
  * Usage : node src/scripts/initDb.js
  */
 require("dotenv").config({ path: require("path").join(__dirname, "../../.env") });

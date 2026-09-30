@@ -1,5 +1,5 @@
 -- ══════════════════════════════════════════════════════════
---  CRM Pro — Schema PostgreSQL
+--  CRM Pro - Schema PostgreSQL
 --  Exécuter : psql -U postgres -d crm_db -f schema.sql
 -- ══════════════════════════════════════════════════════════
 

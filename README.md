@@ -1,4 +1,4 @@
-# 🏢 CRM Pro — Application de Gestion Relation Client
+# 🏢 CRM Pro - Application de Gestion Relation Client
 
 ## 📋 Description
 
@@ -20,7 +20,7 @@ CRM professionnel complet permettant de gérer les clients, prospects, interacti
 ### Prérequis
 - Node.js v18+
 - npm
-- PostgreSQL (optionnel — le mode JSON fonctionne sans)
+- PostgreSQL (optionnel - le mode JSON fonctionne sans)
 
 ### 1. Backend
 

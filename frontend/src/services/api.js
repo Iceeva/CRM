@@ -1,5 +1,5 @@
 /**
- * services/api.js — Instance Axios centralisée
+ * services/api.js - Instance Axios centralisée
  */
 import axios from "axios";
 
