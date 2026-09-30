@@ -23,3 +23,20 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+// ----------------------------------------------------------------------------
+//  Utilisateurs (authentification JWT)
+// ----------------------------------------------------------------------------
+model User {
+  id         String   @id @db.VarChar(64)
+  nom        String   @db.VarChar(255)
+  email      String   @unique @db.VarChar(255)
+  password   String   @db.VarChar(255) // hash bcrypt, jamais renvoye par l'API
+  role       String   @default("user") @db.VarChar(50) // "admin" | "user"
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  chat_messages ChatMessage[]
+
+  @@map("users")
+}
