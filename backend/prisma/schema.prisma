@@ -40,3 +40,49 @@ model User {
 
   @@map("users")
 }
+
+// ----------------------------------------------------------------------------
+//  Clients
+// ----------------------------------------------------------------------------
+model Client {
+  id         String   @id @db.VarChar(64)
+  nom        String   @db.VarChar(255)
+  email      String?  @db.VarChar(255)
+  telephone  String?  @db.VarChar(50)
+  entreprise String?  @db.VarChar(255)
+  statut     String   @default("actif") @db.VarChar(50) // "actif" | "inactif"
+  notes      String?  @db.Text
+  source     String?  @db.VarChar(100)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  interactions  Interaction[]
+  opportunities Opportunity[]
+
+  @@index([email])
+  @@index([statut])
+  @@index([nom])
+  @@map("clients")
+}
+
+// ----------------------------------------------------------------------------
+//  Prospects
+// ----------------------------------------------------------------------------
+model Prospect {
+  id         String   @id @db.VarChar(64)
+  nom        String   @db.VarChar(255)
+  email      String?  @db.VarChar(255)
+  telephone  String?  @db.VarChar(50)
+  entreprise String?  @db.VarChar(255)
+  source     String?  @default("site_web") @db.VarChar(100)
+  statut     String   @default("nouveau") @db.VarChar(50) // "nouveau" | "contacte" | "converti"
+  notes      String?  @db.Text
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  interactions Interaction[]
+
+  @@index([statut])
+  @@index([nom])
+  @@map("prospects")
+}
