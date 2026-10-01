@@ -135,3 +135,26 @@ model Opportunity {
   @@index([date_cloture])
   @@map("opportunities")
 }
+
+// ----------------------------------------------------------------------------
+//  Historique du chatbot assistant
+//  Chaque message utilisateur / assistant est conserve avec l'intention detectee
+//  par le moteur de reconnaissance et le moteur qui a repondu.
+// ----------------------------------------------------------------------------
+model ChatMessage {
+  id         String   @id @default(uuid()) @db.VarChar(64)
+  user_id    String   @db.VarChar(64)
+  session_id String   @db.VarChar(64)
+  role       String   @db.VarChar(20) // "user" | "assistant"
+  content    String   @db.Text
+  intent     String?  @db.VarChar(80)
+  confidence Float?
+  engine     String?  @db.VarChar(40) // "local" | "openai" | "anthropic"
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id, created_at])
+  @@index([session_id])
+  @@map("chat_messages")
+}
