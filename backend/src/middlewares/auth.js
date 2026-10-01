@@ -1,9 +1,11 @@
 /**
- * middlewares/auth.js - Vérification JWT
+ * middlewares/auth.js - Verification du jeton JWT et des roles
+ * ----------------------------------------------------------------------------
+ * Le jeton est attendu dans l'en-tete  Authorization: Bearer <token>.
+ * Apres verification, req.userId et req.userRole sont disponibles.
  */
 const jwt = require("jsonwebtoken");
-
-const SECRET = process.env.JWT_SECRET || "crm_super_secret_key_2024";
+const { env } = require("../config/env");
 
 function authMiddleware(req, res, next) {
   const header = req.headers.authorization;
@@ -13,13 +15,27 @@ function authMiddleware(req, res, next) {
 
   try {
     const token = header.split(" ")[1];
-    const decoded = jwt.verify(token, SECRET);
+    const decoded = jwt.verify(token, env.JWT_SECRET);
     req.userId = decoded.id;
     req.userRole = decoded.role;
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Token expiré ou invalide" });
+    return res.status(401).json({ error: "Token expire ou invalide" });
   }
 }
 
+/**
+ * Restreint une route a certains roles.
+ * Usage : router.delete("/:id", auth, requireRole("admin"), ctrl.remove)
+ */
+function requireRole(...roles) {
+  return (req, res, next) => {
+    if (!roles.includes(req.userRole)) {
+      return res.status(403).json({ error: "Acces refuse : droits insuffisants" });
+    }
+    next();
+  };
+}
+
 module.exports = authMiddleware;
+module.exports.requireRole = requireRole;
