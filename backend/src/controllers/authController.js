@@ -3,95 +3,69 @@
  */
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
 const storage = require("../services/storageService");
-
-const SECRET = process.env.JWT_SECRET || "crm_super_secret_key_2024";
-const EXPIRES = process.env.JWT_EXPIRES_IN || "7d";
+const { env } = require("../config/env");
+const { newId } = require("../utils/id");
+const { HttpError } = require("../utils/httpError");
+const asyncHandler = require("../utils/asyncHandler");
 
 function generateToken(user) {
-  return jwt.sign({ id: user.id, role: user.role }, SECRET, { expiresIn: EXPIRES });
+  return jwt.sign({ id: user.id, role: user.role }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN });
+}
+
+/** Retire le hash du mot de passe avant d'envoyer l'utilisateur au client. */
+function sanitize(user) {
+  const { password, ...safe } = user;
+  return safe;
+}
+
+async function findByEmail(email) {
+  const result = await storage.findAll("users", { filters: { email }, limit: 1 });
+  return result.data[0] || null;
 }
 
 /**
  * POST /api/auth/register
+ * Le role est TOUJOURS "user" : un champ `role` envoye par le client est ignore
+ * (empeche l'auto-attribution du role admin).
  */
-exports.register = async (req, res) => {
-  try {
-    const { nom, email, password, role } = req.body;
+exports.register = asyncHandler(async (req, res) => {
+  const { nom, password } = req.body;
+  const email = req.body.email.toLowerCase();
 
-    if (!nom || !email || !password) {
-      return res.status(400).json({ error: "nom, email et password sont requis" });
-    }
-
-    // Vérifier doublon
-    const existing = await storage.findAll("users", { filters: { email }, limit: 1 });
-    if (existing.data.length > 0) {
-      return res.status(409).json({ error: "Un compte avec cet email existe déjà" });
-    }
-
-    const hashed = await bcrypt.hash(password, 10);
-    const user = await storage.create("users", {
-      id: uuidv4(),
-      nom,
-      email,
-      password: hashed,
-      role: role || "user",
-    });
-
-    const { password: _, ...safe } = user;
-    const token = generateToken(user);
-
-    res.status(201).json({ token, user: safe });
-  } catch (err) {
-    console.error("register error:", err);
-    res.status(500).json({ error: "Erreur serveur" });
+  if (await findByEmail(email)) {
+    throw new HttpError(409, "Un compte avec cet email existe deja");
   }
-};
 
-/**
- * POST /api/auth/login
- */
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const hashed = await bcrypt.hash(password, env.BCRYPT_ROUNDS);
+  const user = await storage.create("users", {
+    id: newId(),
+    nom,
+    email,
+    password: hashed,
+    role: "user",
+  });
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "email et password requis" });
-    }
+  res.status(201).json({ token: generateToken(user), user: sanitize(user) });
+});
 
-    const result = await storage.findAll("users", { filters: { email }, limit: 1 });
-    const user = result.data[0];
+/** POST /api/auth/login */
+exports.login = asyncHandler(async (req, res) => {
+  const { password } = req.body;
+  const email = req.body.email.toLowerCase();
 
-    if (!user) {
-      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
-    }
-
-    const { password: _, ...safe } = user;
-    const token = generateToken(user);
-
-    res.json({ token, user: safe });
-  } catch (err) {
-    console.error("login error:", err);
-    res.status(500).json({ error: "Erreur serveur" });
+  const user = await findByEmail(email);
+  // Meme message que le mot de passe soit faux ou le compte inconnu (pas de fuite d'information)
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    throw new HttpError(401, "Email ou mot de passe incorrect");
   }
-};
 
-/**
- * GET /api/auth/me
- */
-exports.getMe = async (req, res) => {
-  try {
-    const user = await storage.findById("users", req.userId);
-    if (!user) return res.status(404).json({ error: "Utilisateur introuvable" });
-    const { password: _, ...safe } = user;
-    res.json(safe);
-  } catch (err) {
-    res.status(500).json({ error: "Erreur serveur" });
-  }
-};
+  res.json({ token: generateToken(user), user: sanitize(user) });
+});
+
+/** GET /api/auth/me */
+exports.getMe = asyncHandler(async (req, res) => {
+  const user = await storage.findById("users", req.userId);
+  if (!user) throw new HttpError(404, "Utilisateur introuvable");
+  res.json(sanitize(user));
+});
