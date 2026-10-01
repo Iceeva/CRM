@@ -86,3 +86,52 @@ model Prospect {
   @@index([nom])
   @@map("prospects")
 }
+
+// ----------------------------------------------------------------------------
+//  Interactions (appel, email, reunion, note)
+//  - supprimer un client supprime ses interactions (Cascade)
+//  - supprimer un prospect conserve l'historique (SetNull)
+// ----------------------------------------------------------------------------
+model Interaction {
+  id          String   @id @db.VarChar(64)
+  client_id   String?  @db.VarChar(64)
+  prospect_id String?  @db.VarChar(64)
+  type        String   @db.VarChar(50) // "appel" | "email" | "reunion" | "note"
+  sujet       String   @db.VarChar(500)
+  contenu     String?  @db.Text
+  date        DateTime @default(now()) @db.Timestamptz(6)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  client   Client?   @relation(fields: [client_id], references: [id], onDelete: Cascade)
+  prospect Prospect? @relation(fields: [prospect_id], references: [id], onDelete: SetNull)
+
+  @@index([client_id])
+  @@index([prospect_id])
+  @@index([type])
+  @@index([date])
+  @@map("interactions")
+}
+
+// ----------------------------------------------------------------------------
+//  Opportunites commerciales (pipeline de vente)
+//  - supprimer un client conserve l'opportunite (SetNull) pour ne pas perdre le CA
+// ----------------------------------------------------------------------------
+model Opportunity {
+  id           String    @id @db.VarChar(64)
+  client_id    String?   @db.VarChar(64)
+  titre        String    @db.VarChar(500)
+  montant      Decimal   @default(0) @db.Decimal(15, 2)
+  statut       String    @default("prospection") @db.VarChar(50) // prospection | qualification | proposition | negociation | gagnee | perdue
+  description  String?   @db.Text
+  date_cloture DateTime? @db.Date
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime  @default(now()) @updatedAt @db.Timestamptz(6)
+
+  client Client? @relation(fields: [client_id], references: [id], onDelete: SetNull)
+
+  @@index([client_id])
+  @@index([statut])
+  @@index([date_cloture])
+  @@map("opportunities")
+}
