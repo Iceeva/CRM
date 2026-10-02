@@ -107,12 +107,13 @@ function allowedEdits(length) {
  *  0.5..0.9 faute de frappe dans la tolerance de longueur
  *  0    sinon
  */
-function fuzzyTokenScore(input, target) {
+function fuzzyTokenScore(input, target, { prefix = true } = {}) {
   if (input === target) return 1;
   const min = Math.min(input.length, target.length);
-  if (min >= 4 && (target.startsWith(input) || input.startsWith(target))) return 0.92;
+  if (prefix && min >= 4 && (target.startsWith(input) || input.startsWith(target))) return 0.92;
 
-  const tol = allowedEdits(Math.max(input.length, target.length));
+  // Tolerance calculee sur le mot le plus COURT : "prospect" ne doit pas valoir "prospection"
+  const tol = allowedEdits(min);
   if (tol === 0) return 0;
   const dist = damerauLevenshtein(input, target, tol);
   if (dist > tol) return 0;

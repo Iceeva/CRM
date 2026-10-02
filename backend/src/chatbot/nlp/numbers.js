@@ -98,7 +98,7 @@ function extractCount(text) {
   m = t.match(/\b(\d{1,3})\s+(?:derniers?|dernieres?|premiers?|premieres?|clients?|prospects?|opportunites?|interactions?|resultats?|lignes?)\b/);
   if (m) return parseInt(m[1], 10);
   for (const [w, v] of Object.entries(WORD_NUMBERS)) {
-    if (v >= 1 && v <= 20 && new RegExp(`\\b${w}\\s+(derniers?|dernieres?|premiers?|premieres?|clients?|prospects?|opportunites?|interactions?)\\b`).test(t)) return v;
+    if (v >= 2 && v <= 20 && new RegExp(`\\b${w}\\s+(derniers?|dernieres?|premiers?|premieres?|clients?|prospects?|opportunites?|interactions?)\\b`).test(t)) return v;
   }
   return null;
 }

@@ -46,8 +46,8 @@ const ENTITY_TYPES = {
 };
 
 const INTERACTION_TYPES = {
-  appel: ["appel", "appels", "appeler", "appelle", "telephone", "telephoner", "coup de fil", "call", "phone"],
-  email: ["email", "emails", "mail", "mails", "courriel", "courriels", "e mail", "message", "messages"],
+  appel: ["appel", "appels", "appeler", "appelle", "telephoner", "coup de fil", "call"],
+  email: ["email", "emails", "mail", "mails", "courriel", "courriels", "e mail"],
   reunion: ["reunion", "reunions", "rendez vous", "rdv", "meeting", "visio", "entretien", "rencontre", "demo", "atelier"],
   note: ["note", "notes", "memo", "commentaire", "remarque", "compte rendu"],
 };
@@ -102,7 +102,8 @@ function hasPhrase(clean, phrase) {
 function hasPhraseFuzzy(clean, tokens, phrase) {
   if (hasPhrase(clean, phrase)) return true;
   if (phrase.includes(" ") || phrase.length < 5) return false;
-  return tokens.some((t) => t.length >= 5 && fuzzyTokenScore(t, phrase) >= 0.8);
+  // Pas de regle de prefixe ici : "prospect" ne doit pas etre pris pour "prospection"
+  return tokens.some((t) => t.length >= 5 && fuzzyTokenScore(t, phrase, { prefix: false }) >= 0.8);
 }
 
 /** Retourne le premier groupe dont l'un des mots est present. */
@@ -220,7 +221,7 @@ function extractEntities(text, { now = new Date(), knownStems = new Set() } = {}
     src("entityType", typeHit.word);
     // toutes les ressources mentionnees (utile pour "clients et prospects")
     out.entityTypes = Object.entries(ENTITY_TYPES)
-      .filter(([, words]) => words.some((w) => hasPhrase(clean, w)))
+      .filter(([, words]) => words.some((w) => hasPhraseFuzzy(clean, tokens, w)))
       .map(([k]) => k);
   }
 
@@ -300,15 +301,21 @@ function extractEntities(text, { now = new Date(), knownStems = new Set() } = {}
   if (quoted.length) out.quoted = quoted;
   const company = extractCompany(raw);
   if (company) out.company = company;
+  const title = extractTitle(raw);
   let names = extractProperNames(raw).filter((n) => !emails.some((e) => e.includes(n.toLowerCase())));
   if (company) names = names.filter((n) => n !== company);
+  // Un mot capitalise qui fait partie d'un intitule entre guillemets n'est pas un nom de personne
+  if (quoted.length) names = names.filter((n) => !quoted.some((q) => q.toLowerCase().includes(n.toLowerCase())));
   if (names.length) out.names = names;
-  const title = extractTitle(raw);
   if (title) out.title = title;
 
   // --- tri
-  if (SORT_ASC.some((w) => hasPhrase(clean, w))) out.sort = "asc";
-  else if (SORT_DESC.some((w) => hasPhrase(clean, w))) out.sort = "desc";
+  // "le mois dernier" ou "les 7 derniers jours" sont des periodes, pas des tris
+  const sortText = clean
+    .replace(/\b(?:mois|semaine|annee|an|trimestre|jour|jours|semaines|ans)s? (?:dernier|derniere|derniers|dernieres|passe|prochain)\b/g, " ")
+    .replace(/\b(?:dernier|derniere|derniers|dernieres)s? (?:jours?|semaines?|mois|ans?|annees?)\b/g, " ");
+  if (SORT_ASC.some((w) => hasPhrase(sortText, w))) out.sort = "asc";
+  else if (SORT_DESC.some((w) => hasPhrase(sortText, w))) out.sort = "desc";
 
   // --- renvoi a un element precedent
   if (PRONOUNS.some((w) => hasPhrase(clean, w))) out.pronoun = true;
