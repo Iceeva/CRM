@@ -46,7 +46,7 @@ const ENTITY_TYPES = {
 };
 
 const INTERACTION_TYPES = {
-  appel: ["appel", "appels", "appeler", "appelle", "telephoner", "coup de fil", "call"],
+  appel: ["appel", "appels", "appeler", "appelle", "coup de fil", "call"],
   email: ["email", "emails", "mail", "mails", "courriel", "courriels", "e mail"],
   reunion: ["reunion", "reunions", "rendez vous", "rdv", "meeting", "visio", "entretien", "rencontre", "demo", "atelier"],
   note: ["note", "notes", "memo", "commentaire", "remarque", "compte rendu"],
