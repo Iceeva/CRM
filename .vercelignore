@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+node_modules
+frontend/node_modules
+frontend/build
+backend/data/*.runtime.json
+docs
+*.md
+!README.md
