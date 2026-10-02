@@ -46,6 +46,66 @@
       "source": "demo",
       "created_at": "2024-03-05T09:15:00.000Z",
       "updated_at": "2024-03-05T09:15:00.000Z"
+    },
+    {
+      "id": "cli-004",
+      "nom": "Koffi Adjovi",
+      "email": "koffi@benintech.bj",
+      "telephone": "+229 97 12 34 56",
+      "entreprise": "BeninTech",
+      "statut": "actif",
+      "notes": "Partenaire cle, projet fintech",
+      "source": "salon",
+      "created_at": "2026-05-12T09:00:00.000Z",
+      "updated_at": "2026-05-12T09:00:00.000Z"
+    },
+    {
+      "id": "cli-005",
+      "nom": "Aicha Bio",
+      "email": "aicha@sahelconseil.bj",
+      "telephone": "+229 96 88 77 66",
+      "entreprise": "Sahel Conseil",
+      "statut": "actif",
+      "notes": "Contrat de maintenance annuel",
+      "source": "recommandation",
+      "created_at": "2026-06-03T09:00:00.000Z",
+      "updated_at": "2026-06-03T09:00:00.000Z"
+    },
+    {
+      "id": "cli-006",
+      "nom": "Fatou Sow",
+      "email": "fatou@dakarlogistics.sn",
+      "telephone": "+221 78 456 12 90",
+      "entreprise": "Dakar Logistics",
+      "statut": "actif",
+      "notes": "Souhaite un module de suivi de flotte",
+      "source": "linkedin",
+      "created_at": "2026-07-21T09:00:00.000Z",
+      "updated_at": "2026-07-21T09:00:00.000Z"
+    },
+    {
+      "id": "cli-007",
+      "nom": "Lucas Bernard",
+      "email": "lucas@bernard-sa.fr",
+      "telephone": "+33 6 44 55 66 77",
+      "entreprise": "Bernard SA",
+      "statut": "inactif",
+      "notes": "Contrat termine, a relancer en 2027",
+      "source": "site_web",
+      "created_at": "2026-02-08T09:00:00.000Z",
+      "updated_at": "2026-02-08T09:00:00.000Z"
+    },
+    {
+      "id": "cli-008",
+      "nom": "Nadia Benali",
+      "email": "nadia@atlasdigital.ma",
+      "telephone": "+212 6 61 23 45 67",
+      "entreprise": "Atlas Digital",
+      "statut": "actif",
+      "notes": "Agence partenaire, forte croissance",
+      "source": "salon",
+      "created_at": "2026-08-17T09:00:00.000Z",
+      "updated_at": "2026-08-17T09:00:00.000Z"
     }
   ],
   "prospects": [
@@ -72,6 +132,54 @@
       "notes": "Rencontrée au salon Tech Africa",
       "created_at": "2024-04-10T11:00:00.000Z",
       "updated_at": "2024-04-10T11:00:00.000Z"
+    },
+    {
+      "id": "pro-003",
+      "nom": "Yves Hounkpatin",
+      "email": "yves@agrobenin.bj",
+      "telephone": "+229 95 33 22 11",
+      "entreprise": "AgroBenin",
+      "source": "site_web",
+      "statut": "nouveau",
+      "notes": "Demande de devis pour un CRM agricole",
+      "created_at": "2026-09-18T09:00:00.000Z",
+      "updated_at": "2026-09-18T09:00:00.000Z"
+    },
+    {
+      "id": "pro-004",
+      "nom": "Camille Moreau",
+      "email": "camille@moreau-conseil.fr",
+      "telephone": "+33 7 98 76 54 32",
+      "entreprise": "Moreau Conseil",
+      "source": "linkedin",
+      "statut": "contacte",
+      "notes": "Premier echange tres positif",
+      "created_at": "2026-09-10T09:00:00.000Z",
+      "updated_at": "2026-09-10T09:00:00.000Z"
+    },
+    {
+      "id": "pro-005",
+      "nom": "Ibrahim Traore",
+      "email": "ibrahim@abidjanpay.ci",
+      "telephone": "+225 07 11 22 33 44",
+      "entreprise": "Abidjan Pay",
+      "source": "salon",
+      "statut": "nouveau",
+      "notes": "Rencontre au salon Tech Africa 2026",
+      "created_at": "2026-09-25T09:00:00.000Z",
+      "updated_at": "2026-09-25T09:00:00.000Z"
+    },
+    {
+      "id": "pro-006",
+      "nom": "Sandrine Gomez",
+      "email": "sandrine@gomez-immo.bj",
+      "telephone": "+229 91 02 03 04",
+      "entreprise": "Gomez Immobilier",
+      "source": "recommandation",
+      "statut": "contacte",
+      "notes": "Rappeler apres le 10 octobre",
+      "created_at": "2026-09-27T09:00:00.000Z",
+      "updated_at": "2026-09-27T09:00:00.000Z"
     }
   ],
   "interactions": [
@@ -96,6 +204,94 @@
       "date": "2024-04-12T09:30:00.000Z",
       "created_at": "2024-04-12T09:30:00.000Z",
       "updated_at": "2024-04-12T09:30:00.000Z"
+    },
+    {
+      "id": "int-003",
+      "client_id": "cli-004",
+      "prospect_id": null,
+      "type": "reunion",
+      "sujet": "Cadrage projet fintech",
+      "contenu": "Atelier de 2h pour definir le perimetre du MVP.",
+      "date": "2026-09-22T10:00:00.000Z",
+      "created_at": "2026-09-22T10:00:00.000Z",
+      "updated_at": "2026-09-22T10:00:00.000Z"
+    },
+    {
+      "id": "int-004",
+      "client_id": "cli-005",
+      "prospect_id": null,
+      "type": "appel",
+      "sujet": "Point mensuel maintenance",
+      "contenu": "Aucun incident ce mois-ci, client satisfait.",
+      "date": "2026-09-24T15:30:00.000Z",
+      "created_at": "2026-09-24T15:30:00.000Z",
+      "updated_at": "2026-09-24T15:30:00.000Z"
+    },
+    {
+      "id": "int-005",
+      "client_id": "cli-006",
+      "prospect_id": null,
+      "type": "email",
+      "sujet": "Envoi de la proposition flotte",
+      "contenu": "Proposition commerciale envoyee, relance prevue dans une semaine.",
+      "date": "2026-09-26T08:45:00.000Z",
+      "created_at": "2026-09-26T08:45:00.000Z",
+      "updated_at": "2026-09-26T08:45:00.000Z"
+    },
+    {
+      "id": "int-006",
+      "client_id": null,
+      "prospect_id": "pro-003",
+      "type": "appel",
+      "sujet": "Qualification du besoin AgroBenin",
+      "contenu": "Besoin de suivi des cooperatives, budget a confirmer.",
+      "date": "2026-09-28T11:15:00.000Z",
+      "created_at": "2026-09-28T11:15:00.000Z",
+      "updated_at": "2026-09-28T11:15:00.000Z"
+    },
+    {
+      "id": "int-007",
+      "client_id": null,
+      "prospect_id": "pro-004",
+      "type": "reunion",
+      "sujet": "Demo produit Moreau Conseil",
+      "contenu": "Demo de 45 minutes en visio, retours tres favorables.",
+      "date": "2026-09-29T14:00:00.000Z",
+      "created_at": "2026-09-29T14:00:00.000Z",
+      "updated_at": "2026-09-29T14:00:00.000Z"
+    },
+    {
+      "id": "int-008",
+      "client_id": "cli-008",
+      "prospect_id": null,
+      "type": "note",
+      "sujet": "Opportunite de revente",
+      "contenu": "Atlas Digital souhaite revendre la solution a ses clients.",
+      "date": "2026-09-30T09:20:00.000Z",
+      "created_at": "2026-09-30T09:20:00.000Z",
+      "updated_at": "2026-09-30T09:20:00.000Z"
+    },
+    {
+      "id": "int-009",
+      "client_id": "cli-002",
+      "prospect_id": null,
+      "type": "email",
+      "sujet": "Relance renouvellement",
+      "contenu": "Email de relance pour le renouvellement du contrat annuel.",
+      "date": "2026-10-01T16:00:00.000Z",
+      "created_at": "2026-10-01T16:00:00.000Z",
+      "updated_at": "2026-10-01T16:00:00.000Z"
+    },
+    {
+      "id": "int-010",
+      "client_id": null,
+      "prospect_id": "pro-006",
+      "type": "appel",
+      "sujet": "Premier contact Gomez Immobilier",
+      "contenu": "Intéressée, souhaite etre rappelee apres le 10 octobre.",
+      "date": "2026-10-02T09:00:00.000Z",
+      "created_at": "2026-10-02T09:00:00.000Z",
+      "updated_at": "2026-10-02T09:00:00.000Z"
     }
   ],
   "opportunities": [
@@ -131,10 +327,84 @@
       "date_cloture": "2024-03-20",
       "created_at": "2024-02-15T10:00:00.000Z",
       "updated_at": "2024-03-20T10:00:00.000Z"
+    },
+    {
+      "id": "opp-004",
+      "client_id": "cli-004",
+      "titre": "Plateforme fintech BeninTech",
+      "montant": 85000,
+      "statut": "proposition",
+      "description": "Developpement du MVP d'une plateforme de paiement mobile.",
+      "date_cloture": "2026-11-30",
+      "created_at": "2026-09-05T09:00:00.000Z",
+      "updated_at": "2026-09-05T09:00:00.000Z"
+    },
+    {
+      "id": "opp-005",
+      "client_id": "cli-005",
+      "titre": "Maintenance annuelle Sahel Conseil",
+      "montant": 12000,
+      "statut": "gagnee",
+      "description": "Contrat de maintenance et support sur 12 mois.",
+      "date_cloture": "2026-09-15",
+      "created_at": "2026-08-01T09:00:00.000Z",
+      "updated_at": "2026-08-01T09:00:00.000Z"
+    },
+    {
+      "id": "opp-006",
+      "client_id": "cli-006",
+      "titre": "Module suivi de flotte Dakar Logistics",
+      "montant": 32000,
+      "statut": "negociation",
+      "description": "Module de geolocalisation et de suivi des livraisons.",
+      "date_cloture": "2026-10-31",
+      "created_at": "2026-09-12T09:00:00.000Z",
+      "updated_at": "2026-09-12T09:00:00.000Z"
+    },
+    {
+      "id": "opp-007",
+      "client_id": "cli-007",
+      "titre": "Extension licences Bernard SA",
+      "montant": 8000,
+      "statut": "perdue",
+      "description": "Perdue au profit d'un concurrent moins cher.",
+      "date_cloture": "2026-06-30",
+      "created_at": "2026-04-20T09:00:00.000Z",
+      "updated_at": "2026-04-20T09:00:00.000Z"
+    },
+    {
+      "id": "opp-008",
+      "client_id": "cli-008",
+      "titre": "Programme revendeur Atlas Digital",
+      "montant": 54000,
+      "statut": "qualification",
+      "description": "Accord de revente de la solution au Maghreb.",
+      "date_cloture": "2026-12-15",
+      "created_at": "2026-09-30T09:00:00.000Z",
+      "updated_at": "2026-09-30T09:00:00.000Z"
+    },
+    {
+      "id": "opp-009",
+      "client_id": "cli-001",
+      "titre": "Audit securite ACME Corp",
+      "montant": 18500,
+      "statut": "gagnee",
+      "description": "Audit de securite et plan de remediation.",
+      "date_cloture": "2026-09-28",
+      "created_at": "2026-08-20T09:00:00.000Z",
+      "updated_at": "2026-08-20T09:00:00.000Z"
+    },
+    {
+      "id": "opp-010",
+      "client_id": null,
+      "titre": "Lead entrant AgroBenin",
+      "montant": 22000,
+      "statut": "prospection",
+      "description": "Opportunite creee depuis un prospect, a rattacher a un client.",
+      "date_cloture": "2027-01-20",
+      "created_at": "2026-09-28T09:00:00.000Z",
+      "updated_at": "2026-09-28T09:00:00.000Z"
     }
   ],
-  "maintenance": {
-    "active": false,
-    "message": ""
-  }
+  "chat_messages": []
 }
