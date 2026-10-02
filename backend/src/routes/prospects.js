@@ -1,11 +1,13 @@
 const router = require("express").Router();
 const ctrl = require("../controllers/prospectsController");
 const auth = require("../middlewares/auth");
+const validate = require("../middlewares/validate");
+const schemas = require("../middlewares/schemas");
 
 router.get("/", auth, ctrl.getAll);
 router.get("/:id", auth, ctrl.getById);
-router.post("/", auth, ctrl.create);
-router.put("/:id", auth, ctrl.update);
+router.post("/", auth, validate(schemas.prospectCreate), ctrl.create);
+router.put("/:id", auth, validate(schemas.prospectUpdate), ctrl.update);
 router.delete("/:id", auth, ctrl.remove);
 router.post("/:id/convert", auth, ctrl.convert);
 

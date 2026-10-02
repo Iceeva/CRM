@@ -36,8 +36,9 @@ async function computeStats() {
   const g = (obj, k) => obj[k] || 0;
   const totalRevenue = g(oppAmountByStatut, "gagnee");
   const pipelineValue = OPEN_OPPORTUNITY_STATUTS.reduce((s, k) => s + g(oppAmountByStatut, k), 0);
-  const conversionRate = totalProspects + g(prospectsByStatut, "converti") > 0
-    ? Math.round((g(prospectsByStatut, "converti") / (totalProspects || 1)) * 1000) / 10
+  // Part des prospects deja convertis en clients (en %, 1 decimale)
+  const conversionRate = totalProspects
+    ? Math.round((g(prospectsByStatut, "converti") / totalProspects) * 1000) / 10
     : 0;
 
   return {
@@ -77,9 +78,11 @@ exports.getStats = asyncHandler(async (req, res) => {
 /** GET /api/dashboard/status - etat du stockage (appele par le frontend sans authentification) */
 exports.getStatus = asyncHandler(async (req, res) => {
   await storage.ping().catch(() => false);
+  // Endpoint public : on n'expose jamais le detail des erreurs de connexion
+  const { lastError, ...publicDb } = storage.status();
   res.json({
     storageMode: storage.isPostgres() ? "postgresql" : "json",
-    database: storage.status(),
+    database: publicDb,
     timestamp: new Date().toISOString(),
   });
 });
