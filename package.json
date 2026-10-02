@@ -1,0 +1,28 @@
+{
+  "name": "crm-pro",
+  "version": "2.0.0",
+  "private": true,
+  "description": "CRM Pro - gestion de la relation client (React, Express, Prisma, Neon, Vercel) avec chatbot assistant",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/prisma-generate.js",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend start",
+    "start": "node backend/src/server.js",
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "vercel-build": "node scripts/prisma-generate.js && npm --prefix frontend install && CI=false npm --prefix frontend run build",
+    "test": "npm --prefix backend test",
+    "db:generate": "prisma generate --schema backend/prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema backend/prisma/schema.prisma",
+    "db:deploy": "prisma migrate deploy --schema backend/prisma/schema.prisma",
+    "db:push": "prisma db push --schema backend/prisma/schema.prisma",
+    "db:seed": "node backend/prisma/seed.js",
+    "db:studio": "prisma studio --schema backend/prisma/schema.prisma"
+  }
+}
