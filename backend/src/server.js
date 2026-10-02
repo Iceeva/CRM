@@ -1,85 +1,52 @@
 /**
- * server.js - Point d'entrée du backend CRM
+ * server.js - Demarrage local du serveur CRM
+ * ----------------------------------------------------------------------------
+ * 1. valide la configuration
+ * 2. teste la connexion Neon (sinon mode JSON)
+ * 3. demarre Express et gere l'arret propre (SIGINT / SIGTERM)
  *
- * 1. Charge les variables d'environnement
- * 2. Tente la connexion PostgreSQL
- * 3. Si échec → active le mode JSON fallback
- * 4. Démarre Express
+ * Sur Vercel ce fichier n'est PAS utilise : voir api/index.js.
  */
-require("dotenv").config();
-
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const path = require("path");
-
-const { testConnection, startHealthCheck } = require("./config/db");
-
-const app = express();
-
-// ── Middlewares globaux ──
-app.use(cors());
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
-
-// ── Routes API ──
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/clients", require("./routes/clients"));
-app.use("/api/prospects", require("./routes/prospects"));
-app.use("/api/interactions", require("./routes/interactions"));
-app.use("/api/opportunities", require("./routes/opportunities"));
-app.use("/api/dashboard", require("./routes/dashboard"));
-
-// ── Health check ──
-app.get("/api/health", (req, res) => {
-  const storage = require("./services/storageService");
-  res.json({
-    status: "ok",
-    storageMode: storage.isPostgres() ? "postgresql" : "json",
-    timestamp: new Date().toISOString(),
-  });
-});
-
-// ── Servir le frontend en production ──
-app.use(express.static(path.join(__dirname, "../../frontend/build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../frontend/build/index.html"));
-});
-
-// ── Gestion d'erreur globale ──
-app.use((err, req, res, next) => {
-  console.error("❌ Erreur :", err.message);
-  res.status(err.status || 500).json({
-    error: err.message || "Erreur interne du serveur",
-  });
-});
-
-// ── Démarrage ──
-const PORT = process.env.PORT || 5000;
+const { env, validateEnv } = require("./config/env");
+const db = require("./config/prisma");
+const app = require("./app");
 
 async function start() {
-  console.log("──────────────────────────────────────────");
-  console.log("  🏢  CRM Pro - Démarrage du serveur");
-  console.log("──────────────────────────────────────────");
+  console.log("----------------------------------------------------");
+  console.log("  CRM Pro - demarrage du serveur");
+  console.log("----------------------------------------------------");
 
-  // Tenter PostgreSQL
-  const pgOk = await testConnection();
+  validateEnv().forEach((w) => console.warn("[config]", w));
 
-  if (pgOk) {
-    console.log("📦  Mode stockage : PostgreSQL");
+  const dbOk = await db.testConnection();
+  if (dbOk) {
+    console.log("[stockage] Neon PostgreSQL (Prisma) connecte");
+  } else if (db.isConfigured()) {
+    console.warn("[stockage] Neon injoignable, mode JSON de secours :", db.status().lastError);
   } else {
-    console.log("📦  Mode stockage : JSON (fallback)");
-    console.log("   → Les données seront lues/écrites dans data/data.json");
+    console.log("[stockage] Mode JSON (DATABASE_URL non definie)");
+    console.log("           donnees lues/ecrites dans", env.JSON_STORE_PATH);
   }
+  db.startHealthCheck(30000);
 
-  // Vérifier périodiquement si PostgreSQL redevient disponible
-  startHealthCheck(30000);
-
-  app.listen(PORT, () => {
-    console.log(`🚀  Serveur démarré sur http://localhost:${PORT}`);
-    console.log("──────────────────────────────────────────\n");
+  const server = app.listen(env.PORT, () => {
+    console.log(`[http] API disponible sur http://localhost:${env.PORT}/api`);
+    console.log("----------------------------------------------------\n");
   });
+
+  const shutdown = async (signal) => {
+    console.log(`\n[arret] ${signal} recu, fermeture...`);
+    server.close(async () => {
+      await db.disconnect().catch(() => {});
+      process.exit(0);
+    });
+    setTimeout(() => process.exit(1), 8000).unref();
+  };
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
 }
 
-start().catch(console.error);
+start().catch((err) => {
+  console.error("Echec du demarrage :", err);
+  process.exit(1);
+});
