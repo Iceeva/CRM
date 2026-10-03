@@ -12,6 +12,8 @@ const { resolveRecord } = require("../engine/resolver");
 const F = require("../engine/format");
 const H = require("./helpers");
 
+const { inferType } = H;
+
 
 const NOT_FOUND_HINT = "Verifiez l'orthographe ou donnez-moi son email ou son entreprise.";
 
