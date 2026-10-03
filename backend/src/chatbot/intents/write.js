@@ -127,7 +127,7 @@ module.exports = [
     slots: [
       { name: "cible", required: true, prompt: "Avec quel client ou prospect ? (donnez son nom)", from: ["names"] },
       { name: "type", required: true, prompt: "De quel type d'interaction s'agit-il ? (appel, email, reunion ou note)", from: ["interactionType"] },
-      { name: "sujet", required: true, prompt: "Quel est le sujet de l'interaction ?", from: ["title"] },
+      { name: "sujet", required: false, from: ["title"] },
       { name: "contenu", required: false, from: [] },
       { name: "date", required: false, from: ["date"] },
     ],
