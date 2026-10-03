@@ -12,6 +12,7 @@ const { resolveRecord } = require("../engine/resolver");
 const F = require("../engine/format");
 const H = require("./helpers");
 
+
 const NOT_FOUND_HINT = "Verifiez l'orthographe ou donnez-moi son email ou son entreprise.";
 
 /** Reponse standard quand une reference est ambigue ou introuvable. */
@@ -269,7 +270,6 @@ exports.pipelineOverview = async () => {
 exports.topOpportunities = async ({ entities }) => {
   let list = (await H.fetchAll("opportunities")).data;
   if (entities.statut) list = H.applyStatut(list, entities.statut);
-  else list = H.applyStatut(list, "ouvertes").length ? list : list;
   list = list.sort((a, b) => (entities.sort === "asc" ? a.montant - b.montant : b.montant - a.montant));
   const n = Math.min(entities.count || 3, 10);
   const top = list.slice(0, n);
@@ -384,4 +384,3 @@ exports.navigate = async ({ entities, text }) => {
   return { reply: `J'ouvre ${label}.`, actions: [{ type: "navigate", to: target, label: `Ouvrir ${label}`, auto: true }] };
 };
 
-const { inferType } = H;
