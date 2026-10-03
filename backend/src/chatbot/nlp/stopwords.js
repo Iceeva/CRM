@@ -19,7 +19,7 @@ const STOPWORDS = new Set(
     "fait faire fais faut peux peut pouvez peuvent veux veut voudrais voudrait aimerais " +
     "aller va vas vont allez ca cela ceci celui celle ceux " +
     "tres bien alors aussi encore deja tout toute " +
-    "s il vous plait svp stp merci " +
+    "s il vous plait svp stp " +
     "mes mon ma ta tes ici la voila voici " +
     "moi meme"
   ).split(/\s+/)

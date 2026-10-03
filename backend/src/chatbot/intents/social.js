@@ -1,0 +1,113 @@
+/**
+ * chatbot/intents/social.js - Intentions conversationnelles (salutations, aide, identite)
+ * ----------------------------------------------------------------------------
+ * Format d'une intention (voir intents/index.js pour la documentation complete) :
+ *   id, category, description, handler,
+ *   examples   : phrases d'entrainement (similarite lexicale ponderee par l'IDF)
+ *   keywords   : { strong: [...], weak: [...] } mots-cles (racinises au chargement)
+ *   patterns   : [{ re, w }] expressions regulieres sur le texte normalise
+ *   rules      : regles d'ajustement selon les entites detectees
+ */
+module.exports = [
+  {
+    id: "greeting",
+    category: "social",
+    description: "Salutation d'ouverture",
+    handler: "greeting",
+    examples: [
+      "bonjour", "salut", "bonsoir", "coucou", "hello", "hey", "bonjour claude", "salut toi",
+      "bonjour a toi", "bonsoir tout le monde", "yo", "re bonjour",
+    ],
+    keywords: { strong: ["bonjour", "salut", "bonsoir", "coucou", "hello", "hey"], weak: [] },
+    patterns: [{ re: /^(salut|bonjour|bonsoir|hello|hey|coucou|yo|wesh)\b/, w: 0.9 }],
+    rules: { maxTokens: 6 },
+  },
+  {
+    id: "goodbye",
+    category: "social",
+    description: "Prise de conge",
+    handler: "goodbye",
+    examples: [
+      "au revoir", "a bientot", "a plus tard", "bye", "ciao", "bonne journee", "bonne soiree",
+      "a demain", "je m en vais", "je te laisse", "bonne continuation", "a la prochaine", "adieu",
+    ],
+    keywords: { strong: ["revoir", "bientot", "bye", "ciao", "adieu"], weak: ["bonne journee", "bonne soiree", "demain"] },
+    patterns: [
+      { re: /\b(au revoir|a bientot|a plus|a la prochaine|bye|ciao|adieu)\b/, w: 0.9 },
+      { re: /\bbonne (journee|soiree|continuation|nuit|fin de journee)\b/, w: 0.8 },
+      { re: /\bje (te laisse|m en vais|file|y vais)\b/, w: 0.6 },
+    ],
+    rules: { maxTokens: 8 },
+  },
+  {
+    id: "thanks",
+    category: "social",
+    description: "Remerciement ou compliment",
+    handler: "thanks",
+    examples: [
+      "merci", "merci beaucoup", "super merci", "merci pour ton aide", "c est parfait", "genial",
+      "excellent travail", "bravo", "top merci", "merci bien", "tres utile", "impeccable", "nickel",
+    ],
+    keywords: { strong: ["merci", "bravo", "genial", "impeccable", "nickel"], weak: ["parfait", "super", "top", "excellent", "utile"] },
+    patterns: [
+      { re: /\b(merci|remercie|thanks)\b/, w: 0.85 },
+      { re: /\b(bravo|genial|impeccable|nickel|excellent travail|tres utile|c est parfait)\b/, w: 0.7 },
+    ],
+    rules: { maxTokens: 8 },
+  },
+  {
+    id: "how_are_you",
+    category: "social",
+    description: "Question sur l'etat de l'assistant",
+    handler: "howAreYou",
+    examples: [
+      "ca va", "comment vas tu", "comment allez vous", "tu vas bien", "comment ca va",
+      "tu vas bien aujourd hui", "la forme", "quoi de beau", "comment tu te portes", "ca roule",
+    ],
+    keywords: { strong: [], weak: ["forme", "porter"] },
+    patterns: [
+      { re: /\b(comment (vas tu|va tu|allez vous|ca va|tu vas|tu te portes)|ca va( bien)?|tu vas bien|la forme)\b/, w: 0.9 },
+      { re: /^ca roule\b/, w: 0.8 },
+    ],
+    rules: { maxTokens: 8, rejectEntities: ["entityType", "statut", "names"] },
+  },
+  {
+    id: "bot_identity",
+    category: "social",
+    description: "Question sur l'identite de l'assistant",
+    handler: "identity",
+    examples: [
+      "qui es tu", "tu es qui", "comment tu t appelles", "quel est ton nom", "tu es un robot",
+      "tu es une ia", "qui t a cree", "presente toi", "c est quoi ton nom", "tu es humain",
+      "tu es quoi exactement", "qui est tu", "a qui je parle",
+    ],
+    keywords: { strong: ["robot", "humain", "appelles", "presente"], weak: ["nom", "cree", "ia"] },
+    patterns: [
+      { re: /\b(qui es tu|tu es qui|qui est tu|a qui (je )?parle|comment tu t appelles|ton nom|presente toi)\b/, w: 0.9 },
+      { re: /\btu es (un |une )?(robot|ia|humain|bot|assistant|intelligence artificielle|vrai)\b/, w: 0.85 },
+      { re: /\bqui (t a|ta|vous a) (cree|developpe|programme|fait)\b/, w: 0.85 },
+    ],
+    rules: { maxTokens: 9, rejectEntities: ["entityType", "statut"] },
+  },
+  {
+    id: "help",
+    category: "social",
+    description: "Demande d'aide ou de liste des capacites",
+    handler: "help",
+    examples: [
+      "aide", "aide moi", "que peux tu faire", "qu est ce que tu sais faire", "quelles sont tes fonctionnalites",
+      "comment ca marche", "exemples de commandes", "que puis je te demander", "comment t utiliser",
+      "liste des commandes", "tes capacites", "j ai besoin d aide", "a quoi tu sers", "help",
+      "montre moi ce que tu sais faire", "donne moi des exemples",
+    ],
+    keywords: { strong: ["aide", "aider", "help", "fonctionnalite", "capacite", "commande"], weak: ["exemple", "utiliser", "sers", "marche"] },
+    patterns: [
+      { re: /\b(que|qu est ce que|quoi) (peux|sais|puis)[ -]?(tu|je|vous)?\b.*\b(faire|demander|utiliser)\b/, w: 0.9 },
+      { re: /^(aide|help|aidez moi|aide moi|a l aide)\b/, w: 0.9 },
+      { re: /\b(quelles? (sont|est) (tes|vos|les) (fonctionnalites?|capacites?|commandes?|possibilites?))\b/, w: 0.9 },
+      { re: /\b(a quoi tu sers|comment (ca marche|t utiliser|te parler|fonctionnes? tu)|exemples? de (commandes?|questions?|phrases?))\b/, w: 0.85 },
+      { re: /\bj ai besoin d aide\b/, w: 0.85 },
+    ],
+    rules: { maxTokens: 12, rejectEntities: ["names", "amount"] },
+  },
+];
