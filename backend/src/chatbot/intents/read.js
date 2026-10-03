@@ -82,7 +82,13 @@ module.exports = [
       { re: /\b(donne|donnez)( moi)? (la liste|les|tous|toutes)\b/, w: 0.55 },
       { re: /\bvoir (tous|toutes|les|mes)\b/, w: 0.5 },
     ],
-    rules: { prefer: ["clients", "prospects", "opportunities", "interactions"], needs: ["entityType"], boost: ["statut", "count", "amountConstraint", "period"], penalize: ["field"] },
+    rules: {
+      prefer: ["clients", "prospects", "opportunities", "interactions"],
+      needs: ["entityType"],
+      boost: ["statut", "count", "amountConstraint", "period"],
+      penalize: ["field"],
+      blockIfPattern: [/\b(en retard|echeance|cloture|bientot|expire\w*)\b/, /\bchiffre d affaires\b/, /\bplus (gros|grosse|grand|belle|important)/],
+    },
   },
   {
     id: "find_record",
@@ -251,7 +257,8 @@ module.exports = [
     },
     patterns: [
       { re: /\b(cloture|cloturer|cloturent|echeances?|deadlines?|date limite)\b/, w: 0.7 },
-      { re: /\b(opportunites?|affaires?|deals?) (en retard|expirees?|depassees?)\b/, w: 0.9 },
+      { re: /\b(opportunites?|affaires?|deals?)\b.*\b(en retard|expire\w*|depassee?s?|echue?s?)\b/, w: 0.9 },
+      { re: /\ben retard\b/, w: 0.6 },
       { re: /\b(se terminent|se terminant|arrivent a echeance|a cloturer|a echeance)\b/, w: 0.8 },
       { re: /\bdate de cloture (est )?(depassee|passee|proche)\b/, w: 0.9 },
       { re: /\bretards? de cloture\b/, w: 0.9 },

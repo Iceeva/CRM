@@ -20,7 +20,8 @@ module.exports = [
     ],
     keywords: { strong: ["bonjour", "salut", "bonsoir", "coucou", "hello", "hey"], weak: [] },
     patterns: [{ re: /^(salut|bonjour|bonsoir|hello|hey|coucou|yo|wesh)\b/, w: 0.9 }],
-    rules: { maxTokens: 6 },
+    // "salut ca va ?" est d'abord une question sur l'etat de l'assistant
+    rules: { maxTokens: 6, blockIfPattern: [/\bca va\b/, /\bcomment (vas|allez|va)\b/] },
   },
   {
     id: "goodbye",

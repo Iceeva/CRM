@@ -210,7 +210,11 @@ function extractTitle(raw) {
  */
 function extractEntities(text, { now = new Date(), knownStems = new Set() } = {}) {
   const a = analyze(text);
-  const { raw, clean, tokens, stems } = a;
+  const { raw, stems } = a;
+  // "chiffre d'affaires" contient le mot "affaires" : on le neutralise pour ne pas
+  // le prendre pour une opportunite
+  const clean = a.clean.replace(/\bchiffre d affaires?\b/g, "chiffre_affaires");
+  const tokens = clean.split(" ").filter(Boolean);
   const out = { _sources: {} };
   const src = (k, v) => (out._sources[k] = v);
 

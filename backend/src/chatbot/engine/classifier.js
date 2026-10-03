@@ -122,9 +122,14 @@ function maskClean(a, entities) {
   return masked;
 }
 
+/** Mots interrogatifs trop generiques pour porter une intention (ignores par le signal lexical). */
+const LEXICAL_STOP = new Set(["quel", "quelle", "quels", "quelles", "dire", "dis", "peut", "ca", "ce", "cela"]);
+
 /** Tokens contenu apres masquage. */
 function maskedContent(masked) {
-  return masked.split(" ").filter((t) => t && t !== "xname" && t !== "xemail" && !isStopword(t));
+  return masked
+    .split(" ")
+    .filter((t) => t && t !== "xname" && t !== "xemail" && !isStopword(t) && !LEXICAL_STOP.has(t));
 }
 
 /** Meilleure correspondance floue d'un token parmi une liste. */
@@ -238,7 +243,7 @@ function entityAdjust(intent, e, masked, tokenCount) {
   // Longueur : les formules sociales sont courtes
   if (r.maxTokens && tokenCount > r.maxTokens) { adj -= 0.35; notes.push("-long"); }
   // Interdictions par motif
-  for (const re of r.blockIfPattern || []) if (re.test(masked)) { adj -= 0.6; notes.push("-bloque"); break; }
+  for (const re of r.blockIfPattern || []) if (re.test(masked)) { adj -= 1.0; notes.push("-bloque"); break; }
 
   return { adj, notes };
 }
@@ -284,8 +289,8 @@ function classify(text, { now = new Date(), bias = {} } = {}) {
   const second = candidates[1];
   const margin = top.score - (second ? second.score : 0);
 
-  // Confiance : niveau absolu (80 %) + avance sur le second (45 %)
-  const confidence = a.tokens.length === 0 ? 0 : clamp01(0.55 * clamp01(top.score / 0.8) + 0.45 * clamp01(margin / 0.22));
+  // Confiance : niveau absolu du meilleur score (55 %) + avance sur le second (45 %)
+  const confidence = a.tokens.length === 0 ? 0 : clamp01(0.55 * clamp01(top.score / 0.6) + 0.45 * clamp01(margin / 0.2));
 
   // Ambiguite : deux intentions du meme groupe confondable, tres proches
   let ambiguity = null;

@@ -5,7 +5,8 @@
  *
  *   1. unification des apostrophes et guillemets typographiques
  *   2. mise en minuscules et suppression des accents (NFD)
- *   3. expansion des contractions francaises  (l'email -> le email, j'ai -> je ai)
+ *   3. apostrophes remplacees par une espace  (l'email -> "l email", j'ai -> "j ai",
+ *      d'affaires -> "d affaires"). Les patrons du catalogue sont ecrits dans cette forme.
  *   4. expansion de l'argot SMS et des abreviations  (stp, svp, bjr, mdp, opp...)
  *   5. suppression de la ponctuation (les chiffres, @ . + : / % sont conserves
  *      car ils portent des entites : email, telephone, date, montant)
@@ -30,22 +31,6 @@ function normalizeTypography(s) {
     .replace(/\u2026/g, "...")
     .replace(/[\u2013\u2014]/g, "-");
 }
-
-/** Contractions : "l'email" -> "le email" (on garde une forme lisible, pas parfaite). */
-const CONTRACTIONS = [
-  [/\bqu'/g, "que "],
-  [/\bjusqu'/g, "jusque "],
-  [/\blorsqu'/g, "lorsque "],
-  [/\bpuisqu'/g, "puisque "],
-  [/\bl'/g, "le "],
-  [/\bd'/g, "de "],
-  [/\bj'/g, "je "],
-  [/\bm'/g, "me "],
-  [/\bt'/g, "te "],
-  [/\bs'/g, "se "],
-  [/\bn'/g, "ne "],
-  [/\bc'/g, "ce "],
-];
 
 /**
  * Argot / abreviations -> forme standard.
@@ -165,10 +150,9 @@ function normalize(input) {
   let s = normalizeTypography(raw).toLowerCase();
   s = stripAccents(s);
 
-  // Contractions AVANT suppression de la ponctuation (l'apostrophe est necessaire)
-  for (const [re, rep] of CONTRACTIONS) s = s.replace(re, rep);
+  // Apostrophes -> espace : "l'email" devient "l email" (voir l'en-tete du fichier)
+  s = s.replace(/'/g, " ");
 
-  // Les "ca" de type CA (chiffre d'affaires) sont geres par les mots-cles du catalogue.
   // Ponctuation -> espace, en conservant : lettres, chiffres, @ . + : / % - et _
   s = s.replace(/[^a-z0-9@.+:/%_\-\s]/g, " ");
   // Les points / tirets / deux-points isoles (fins de phrase, listes) deviennent des espaces
