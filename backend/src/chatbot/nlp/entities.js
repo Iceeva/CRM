@@ -144,7 +144,9 @@ const NOT_NAMES = new Set(
     "Resume Resumez Statistiques Statistique Stats Pipeline Clients Client Prospects Prospect Opportunites Opportunite Interactions Interaction " +
     "Email Telephone Entreprise Notes Note Appel Reunion Mail Hier Demain Aujourd Lundi Mardi Mercredi Jeudi Vendredi Samedi Dimanche " +
     "Janvier Fevrier Mars Avril Mai Juin Juillet Aout Septembre Octobre Novembre Decembre Euros Euro Dis Dites Fais Faites Enregistre " +
-    "Note Noter Planifie Programme Rappelle Rappelez Relance Relancer Quels Tous Toutes Tout Toute Y Aurais Aurait Serait Existe Mets Mettez"
+    "Note Noter Planifie Programme Rappelle Rappelez Relance Relancer Quels Tous Toutes Tout Toute Y Aurais Aurait Serait Existe Mets Mettez " +
+    "Que Qu Hello Hey Coucou Yo Slt Bsr Bjr Cc Ca CA Cv Ton Ta Tes Sais Sait Savez Est Es Fais Dites Aide Help Top Super Bravo Genial Parfait " +
+    "Total Nombre Etat Valeur Repartition Taux Historique Fiche Details Profil Infos Detail Classement Mode Base"
   ).split(/\s+/)
 );
 
@@ -308,6 +310,12 @@ function extractEntities(text, { now = new Date(), knownStems = new Set() } = {}
   const title = extractTitle(raw);
   let names = extractProperNames(raw).filter((n) => !emails.some((e) => e.includes(n.toLowerCase())));
   if (company) names = names.filter((n) => n !== company);
+  // Un mot isole du vocabulaire ("Hello", "CA", "Resume") n'est pas un nom de personne
+  names = names.filter((n) => {
+    if (n.includes(" ")) return true;
+    const w = stripAccents(n.toLowerCase());
+    return !(knownStems.has(w) || knownStems.has(analyze(n).stems[0]));
+  });
   // Un mot capitalise qui fait partie d'un intitule entre guillemets n'est pas un nom de personne
   if (quoted.length) names = names.filter((n) => !quoted.some((q) => q.toLowerCase().includes(n.toLowerCase())));
   if (names.length) out.names = names;
