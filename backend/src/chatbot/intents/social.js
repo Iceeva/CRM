@@ -38,7 +38,7 @@ module.exports = [
       { re: /\bbonne (journee|soiree|continuation|nuit|fin de journee)\b/, w: 0.8 },
       { re: /\bje (te laisse|m en vais|file|y vais)\b/, w: 0.6 },
     ],
-    rules: { maxTokens: 8 },
+    rules: { maxTokens: 8, blockIfPattern: [/^(hello|salut|bonjour|bonsoir|coucou|hey)\b/] },
   },
   {
     id: "thanks",
@@ -110,5 +110,33 @@ module.exports = [
       { re: /\bj ai besoin d aide\b/, w: 0.85 },
     ],
     rules: { maxTokens: 12, rejectEntities: ["names", "amount"] },
+  },
+  {
+    id: "off_topic",
+    category: "social",
+    description: "Question sans rapport avec le CRM (culture generale, calcul, divertissement...)",
+    handler: "offTopic",
+    examples: [
+      "quelle est la capitale de la france", "raconte moi une blague", "quel temps fait il demain",
+      "ecris un poeme sur la mer", "combien font 12 fois 13", "recommande moi un film", "donne moi une recette de cuisine",
+      "traduis cette phrase en anglais", "qui a gagne la coupe du monde", "explique moi la relativite",
+      "conseille moi un livre", "quelle heure est il", "resous cette equation", "ecris moi un mail de vacances",
+    ],
+    keywords: {
+      strong: ["blague", "poeme", "recette", "film", "meteo", "capitale", "traduis", "equation", "horoscope", "musique", "chanson"],
+      weak: ["livre", "temps", "heure", "histoire", "sport", "football"],
+    },
+    patterns: [
+      { re: /(blague|poeme|recette|horoscope|meteo|chanson|film|serie)/, w: 0.85 },
+      { re: /capitale (de|du|des|d)/, w: 0.9 },
+      { re: /\bquel temps (fait|va)\b/, w: 0.9 },
+      { re: /\bcombien (font|egale)\b/, w: 0.85 },
+      { re: /\b\d+ (fois|x|plus|moins|divise par) \d+\b/, w: 0.85 },
+      { re: /\b(traduis|traduire|traduction|ecris (moi )?(un|une)|redige (moi )?(un|une)|raconte( moi)?)\b/, w: 0.7 },
+      { re: /\bqui a (gagne|invente|decouvert|ecrit|peint|cree)\b/, w: 0.85 },
+      { re: /\b(explique( moi)?|c est quoi|qu est ce que c est)\b.*\b(relativite|physique|chimie|histoire|philosophie|politique|guerre)\b/, w: 0.85 },
+      { re: /\bquelle heure\b/, w: 0.85 },
+    ],
+    rules: { rejectEntities: ["entityType", "statut", "field", "emails"] },
   },
 ];
