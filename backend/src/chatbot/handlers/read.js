@@ -366,7 +366,7 @@ exports.followupSuggestions = async ({ now }) => {
   return {
     reply: `Voici ${top.length === items.length ? "les" : `les ${top.length} principales`} relances a prevoir :\n${top.map((i) => `- ${F.recordTitle(i.type, i.r)} (${i.type === "clients" ? "client" : i.type === "prospects" ? "prospect" : "opportunite"}) : ${i.why}`).join("\n")}`,
     items: top.map((i) => F.toItem(i.type, i.r)),
-    quickReplies: [`J'ai appele ${top[0].type !== "opportunities" ? F.recordTitle(top[0].type, top[0].r) : "un client"}`],
+    quickReplies: top.filter((i) => i.type !== "opportunities").slice(0, 1).map((i) => `J'ai appele ${F.recordTitle(i.type, i.r)}`),
   };
 };
 

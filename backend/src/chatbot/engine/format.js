@@ -55,7 +55,10 @@ function statutLabel(statut, type, plural = false) {
   } else {
     base = base.replace(/^gagnee$/, "gagne").replace(/^perdue$/, "perdu");
   }
-  if (plural && !/s$/.test(base) && !base.startsWith("en ")) base += "s";
+  if (plural && !base.startsWith("en ")) {
+    if (base === "nouveau") base = "nouveaux";
+    else if (!/s$/.test(base)) base += "s";
+  }
   return base;
 }
 

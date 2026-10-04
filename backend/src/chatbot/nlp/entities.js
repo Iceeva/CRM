@@ -194,7 +194,7 @@ function extractCompany(raw) {
 function extractTitle(raw) {
   const quoted = extractQuoted(raw);
   if (quoted.length) return quoted[0];
-  const m = raw.match(/\b(?:intitul[ée]e?|titre|nomm[ée]e?|appel[ée]e?|libell[ée]|sujet|objet|pour|concernant)\s*:?\s+([^,.;!?\n]{3,100})/i);
+  const m = raw.match(/\b(?:intitul[ée]e?|titre|nomm[ée]e?|libell[ée]|sujet|objet|concernant)\s*:?\s+([^,.;!?\n]{3,100})/i);
   if (m) {
     const t = m[1].replace(/\s+(?:de|d['\u2019]|a|à|avec|pour|montant|statut|client|prospect|aupres)\b.*$/i, "").trim();
     if (t.length >= 3) return t;

@@ -29,7 +29,7 @@ const { computeStats } = require("../../controllers/dashboardController");
 const F = require("./format");
 
 const FOLLOWABLE = new Set(["count_records", "list_records", "revenue_total", "get_contact_info", "record_details", "interaction_history", "recent_activity", "top_opportunities", "closing_soon", "find_record"]);
-const SOCIAL = new Set(["greeting", "goodbye", "thanks", "how_are_you", "bot_identity", "help", "off_topic"]);
+const SOCIAL = new Set(["greeting", "goodbye", "thanks", "how_are_you", "bot_identity", "help", "off_topic", "affirm", "deny"]);
 const ENTITY_KEYS = ["entityType", "statut", "statutScope", "field", "interactionType", "period", "count", "amount", "amountConstraint", "sort", "names", "company", "emails", "date", "title", "residual", "pronoun"];
 
 const SUGGESTIONS = ["Resume de mon activite", "Combien de clients actifs ?", "Qui dois-je relancer ?", "Que sais-tu faire ?"];
@@ -144,7 +144,9 @@ async function respond({ text, state: rawState, user, history = [], now = new Da
     const handled = await dialog.handlePending(text, state, ctx, classification);
     if (handled && handled.rerun) {
       const r = handled.rerun;
-      const ents = { ...r.carry, pronoun: true };
+      // On retire les termes de recherche d'origine : l'enregistrement choisi est deja identifie
+      const { names, company, title, emails, phones, ...kept } = r.carry || {};
+      const ents = { ...kept, pronoun: true };
       const st = { ...state, lastRecord: r.ref };
       out = await runIntent(r.intent, ents, { ...ctx, state: st });
       usedIntent = r.intent;
@@ -183,6 +185,15 @@ async function respond({ text, state: rawState, user, history = [], now = new Da
       result: { reply: `${group.question}`, quickReplies: opts.map((o) => o.label) },
       pending: { kind: "disambiguate", intent: opts[0].id, slots: {}, options: opts, carry: carryOf(entities), ttl: dialog.PENDING_TTL },
     };
+  }
+
+  // 4b. "oui" / "non" sans question en attente
+  if (!out && !state.pending && (entities.yes || entities.no) && clean.split(" ").length <= 3) {
+    out = {
+      result: { reply: entities.no ? "D'accord. Que souhaitez-vous faire d'autre ?" : "Il n'y a rien a confirmer pour le moment. Que souhaitez-vous faire ?", quickReplies: SUGGESTIONS.slice(0, 3) },
+      pending: null,
+    };
+    usedIntent = entities.no ? "deny" : "affirm";
   }
 
   // 5. Confiance trop faible -> IA optionnelle, sinon message d'aide
