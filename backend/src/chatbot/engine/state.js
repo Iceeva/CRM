@@ -52,6 +52,15 @@ function sanitizePending(p) {
       .map((o) => ({ id: str(o && o.id, 80), label: str(o && o.label, 120), type: RESOURCE_TYPES.has(o && o.type) ? o.type : undefined }))
       .filter((o) => o.id);
   }
+  // Informations de la phrase d'origine a conserver pendant un choix (liste blanche stricte)
+  if (p.carry && typeof p.carry === "object") {
+    const c = {};
+    for (const k of ["field", "interactionType", "entityType", "statut", "company", "title"]) if (typeof p.carry[k] === "string") c[k] = p.carry[k].slice(0, 200);
+    for (const k of ["names", "emails", "phones"]) if (Array.isArray(p.carry[k])) c[k] = p.carry[k].filter((x) => typeof x === "string").slice(0, 3).map((x) => x.slice(0, 200));
+    for (const k of ["amount"]) if (typeof p.carry[k] === "number" && Number.isFinite(p.carry[k])) c[k] = p.carry[k];
+    if (typeof p.carry.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(p.carry.date)) c.date = p.carry.date;
+    out.carry = c;
+  }
   if (typeof p.ttl === "number") out.ttl = Math.max(0, Math.min(6, Math.floor(p.ttl)));
   return out;
 }
