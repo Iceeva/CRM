@@ -8,6 +8,7 @@ import Modal from "../components/Modal";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import ConfirmDialog from "../components/ConfirmDialog";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 const STATUTS = ["prospection", "qualification", "proposition", "negociation", "gagnee", "perdue"];
 
@@ -177,7 +178,7 @@ export default function Opportunities() {
           </div>
         ) : items.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-4xl mb-3">💰</p>
+            <p className="text-4xl mb-3"><Icon name="cash-coin" /></p>
             <p className="text-gray-500">Aucune opportunité trouvée</p>
           </div>
         ) : (
@@ -206,8 +207,8 @@ export default function Opportunities() {
                   <p className="text-xs text-gray-500 mt-2 line-clamp-2">{o.description}</p>
                 )}
                 <div className="flex justify-end gap-2 mt-3 pt-3 border-t border-gray-50">
-                  <button onClick={() => openEdit(o)} className="text-xs text-primary-600">✏️ Modifier</button>
-                  <button onClick={() => setDeleteId(o.id)} className="text-xs text-red-500">🗑️</button>
+                  <button onClick={() => openEdit(o)} className="text-xs text-primary-600"><Icon name="pencil-square" /> Modifier</button>
+                  <button onClick={() => setDeleteId(o.id)} className="text-xs text-red-500"><Icon name="trash" title="Supprimer" /></button>
                 </div>
               </div>
             ))}

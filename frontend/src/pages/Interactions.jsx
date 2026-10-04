@@ -8,15 +8,10 @@ import Modal from "../components/Modal";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import ConfirmDialog from "../components/ConfirmDialog";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 const TYPES = ["appel", "email", "reunion", "note"];
 
-const TYPE_ICONS = {
-  appel: "📞",
-  email: "📧",
-  reunion: "🤝",
-  note: "📝",
-};
 
 const emptyForm = {
   client_id: "",
@@ -131,11 +126,11 @@ export default function Interactions() {
   const getContactName = (i) => {
     if (i.client_id) {
       const c = clients.find((cl) => cl.id === i.client_id);
-      return c ? `👤 ${c.nom}` : "Client inconnu";
+      return c ? <><Icon name="person" /> {c.nom}</> : "Client inconnu";
     }
     if (i.prospect_id) {
       const p = prospects.find((pr) => pr.id === i.prospect_id);
-      return p ? `🎯 ${p.nom}` : "Prospect inconnu";
+      return p ? <><Icon name="bullseye" /> {p.nom}</> : "Prospect inconnu";
     }
     return "-";
   };
@@ -167,7 +162,7 @@ export default function Interactions() {
           <option value="">Tous les types</option>
           {TYPES.map((t) => (
             <option key={t} value={t}>
-              {TYPE_ICONS[t]} {t.charAt(0).toUpperCase() + t.slice(1)}
+              {t.charAt(0).toUpperCase() + t.slice(1)}
             </option>
           ))}
         </select>
@@ -180,14 +175,14 @@ export default function Interactions() {
           </div>
         ) : items.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-4xl mb-3">💬</p>
+            <p className="text-4xl mb-3"><Icon name="chat-dots" /></p>
             <p className="text-gray-500">Aucune interaction trouvée</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-50">
             {items.map((i) => (
               <div key={i.id} className="flex items-start gap-4 p-4 hover:bg-gray-50 transition">
-                <div className="text-2xl pt-1">{TYPE_ICONS[i.type] || "📝"}</div>
+                <div className="text-2xl pt-1"><InteractionIcon type={i.type} /></div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-sm font-semibold text-gray-800">{i.sujet}</p>
@@ -204,8 +199,8 @@ export default function Interactions() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 pt-1">
-                  <button onClick={() => openEdit(i)} className="text-xs text-primary-600">✏️</button>
-                  <button onClick={() => setDeleteId(i.id)} className="text-xs text-red-500">🗑️</button>
+                  <button onClick={() => openEdit(i)} className="text-xs text-primary-600"><Icon name="pencil-square" title="Modifier" /></button>
+                  <button onClick={() => setDeleteId(i.id)} className="text-xs text-red-500"><Icon name="trash" title="Supprimer" /></button>
                 </div>
               </div>
             ))}
@@ -232,7 +227,7 @@ export default function Interactions() {
               >
                 {TYPES.map((t) => (
                   <option key={t} value={t}>
-                    {TYPE_ICONS[t]} {t.charAt(0).toUpperCase() + t.slice(1)}
+                    {t.charAt(0).toUpperCase() + t.slice(1)}
                   </option>
                 ))}
               </select>

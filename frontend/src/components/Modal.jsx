@@ -1,6 +1,8 @@
 /**
  * components/Modal.jsx - Modal réutilisable
  */
+import Icon from "./Icon";
+
 export default function Modal({ isOpen, onClose, title, children, size = "md" }) {
   if (!isOpen) return null;
 
@@ -24,7 +26,7 @@ export default function Modal({ isOpen, onClose, title, children, size = "md" })
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 text-xl transition"
           >
-            ✕
+            <Icon name="x-lg" title="Fermer" />
           </button>
         </div>
         {/* Body */}
