@@ -2,6 +2,7 @@
  * components/SearchBar.jsx - Barre de recherche avec debounce
  */
 import { useState, useEffect } from "react";
+import Icon from "./Icon";
 
 export default function SearchBar({ value, onChange, placeholder = "Rechercher..." }) {
   const [local, setLocal] = useState(value || "");
@@ -15,7 +16,7 @@ export default function SearchBar({ value, onChange, placeholder = "Rechercher..
 
   return (
     <div className="relative">
-      <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">🔍</span>
+      <span className="absolute inset-y-0 left-3 flex items-center text-gray-400"><Icon name="search" /></span>
       <input
         type="text"
         value={local}
@@ -28,7 +29,7 @@ export default function SearchBar({ value, onChange, placeholder = "Rechercher..
           onClick={() => { setLocal(""); onChange(""); }}
           className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600"
         >
-          ✕
+          <Icon name="x-lg" />
         </button>
       )}
     </div>
