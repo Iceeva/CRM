@@ -9,6 +9,7 @@ import Modal from "../components/Modal";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import ConfirmDialog from "../components/ConfirmDialog";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 const STATUTS = ["nouveau", "contacte", "qualifie", "converti"];
 const SOURCES = ["site_web", "linkedin", "salon", "recommandation", "publicite", "autre"];
@@ -114,7 +115,7 @@ export default function Prospects() {
   const handleConvert = async (id) => {
     try {
       await api.post(`/prospects/${id}/convert`);
-      toast.success("Prospect converti en client ! 🎉");
+      toast.success("Prospect converti en client !");
       fetchProspects();
     } catch (err) {
       toast.error(err.response?.data?.error || "Erreur conversion");
@@ -163,7 +164,7 @@ export default function Prospects() {
           </div>
         ) : prospects.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-4xl mb-3">🎯</p>
+            <p className="text-4xl mb-3"><Icon name="bullseye" /></p>
             <p className="text-gray-500">Aucun prospect trouvé</p>
           </div>
         ) : (
@@ -216,14 +217,14 @@ export default function Prospects() {
                             className="text-xs bg-green-50 text-green-700 hover:bg-green-100 px-2 py-1 rounded font-medium transition"
                             title="Convertir en client"
                           >
-                            → Client
+                            <Icon name="person-check" /> Client
                           </button>
                         )}
                         <button onClick={() => openEdit(p)} className="text-xs text-primary-600">
-                          ✏️
+                          <Icon name="pencil-square" title="Modifier" />
                         </button>
                         <button onClick={() => setDeleteId(p.id)} className="text-xs text-red-500">
-                          🗑️
+                          <Icon name="trash" title="Supprimer" />
                         </button>
                       </div>
                     </td>

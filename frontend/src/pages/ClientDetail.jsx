@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import toast from "react-hot-toast";
 import Modal from "../components/Modal";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 export default function ClientDetail() {
   const { id } = useParams();
@@ -73,7 +74,7 @@ export default function ClientDetail() {
         onClick={() => navigate("/clients")}
         className="text-sm text-gray-500 hover:text-gray-700 transition"
       >
-        ← Retour aux clients
+        <Icon name="arrow-left" /> Retour aux clients
       </button>
 
       {/* Client header */}
@@ -127,7 +128,7 @@ export default function ClientDetail() {
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-semibold text-gray-700">
-              💬 Interactions ({interactions.length})
+              <Icon name="chat-dots" /> Interactions ({interactions.length})
             </h2>
             <button
               onClick={() => setInterModal(true)}
@@ -143,7 +144,7 @@ export default function ClientDetail() {
               {interactions.map((i) => (
                 <div key={i.id} className="flex gap-3 p-3 rounded-lg bg-gray-50">
                   <span className="text-lg">
-                    {i.type === "appel" ? "📞" : i.type === "email" ? "📧" : i.type === "reunion" ? "🤝" : "📝"}
+                    <InteractionIcon type={i.type} />
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-800">{i.sujet}</p>
@@ -163,7 +164,7 @@ export default function ClientDetail() {
         {/* Opportunités */}
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
           <h2 className="text-sm font-semibold text-gray-700 mb-4">
-            💰 Opportunités ({opportunities.length})
+            <Icon name="cash-coin" /> Opportunités ({opportunities.length})
           </h2>
           {opportunities.length === 0 ? (
             <p className="text-gray-400 text-sm text-center py-8">Aucune opportunité</p>
@@ -209,10 +210,10 @@ export default function ClientDetail() {
               onChange={(e) => setInterForm({ ...interForm, type: e.target.value })}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
             >
-              <option value="appel">📞 Appel</option>
-              <option value="email">📧 Email</option>
-              <option value="reunion">🤝 Réunion</option>
-              <option value="note">📝 Note</option>
+              <option value="appel">Appel</option>
+              <option value="email">Email</option>
+              <option value="reunion">Réunion</option>
+              <option value="note">Note</option>
             </select>
           </div>
           <div>

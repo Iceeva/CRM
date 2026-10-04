@@ -9,6 +9,7 @@ import Modal from "../components/Modal";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 import ConfirmDialog from "../components/ConfirmDialog";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 const STATUTS = ["actif", "inactif", "vip"];
 
@@ -155,7 +156,7 @@ export default function Clients() {
           </div>
         ) : clients.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-4xl mb-3">👥</p>
+            <p className="text-4xl mb-3"><Icon name="people" /></p>
             <p className="text-gray-500">Aucun client trouvé</p>
           </div>
         ) : (
@@ -204,13 +205,13 @@ export default function Clients() {
                           onClick={() => openEdit(c)}
                           className="text-xs text-primary-600 hover:text-primary-800 font-medium"
                         >
-                          ✏️
+                          <Icon name="pencil-square" title="Modifier" />
                         </button>
                         <button
                           onClick={() => setDeleteId(c.id)}
                           className="text-xs text-red-500 hover:text-red-700 font-medium"
                         >
-                          🗑️
+                          <Icon name="trash" title="Supprimer" />
                         </button>
                       </div>
                     </td>

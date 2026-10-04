@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import toast from "react-hot-toast";
 import Modal from "../components/Modal";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 export default function ProspectDetail() {
   const { id } = useParams();
@@ -36,7 +37,7 @@ export default function ProspectDetail() {
   const handleConvert = async () => {
     try {
       await api.post(`/prospects/${id}/convert`);
-      toast.success("Prospect converti en client ! 🎉");
+      toast.success("Prospect converti en client !");
       navigate("/clients");
     } catch (err) {
       toast.error(err.response?.data?.error || "Erreur conversion");
@@ -77,7 +78,7 @@ export default function ProspectDetail() {
         onClick={() => navigate("/prospects")}
         className="text-sm text-gray-500 hover:text-gray-700 transition"
       >
-        ← Retour aux prospects
+        <Icon name="arrow-left" /> Retour aux prospects
       </button>
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
@@ -108,7 +109,7 @@ export default function ProspectDetail() {
                 onClick={handleConvert}
                 className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg font-medium transition"
               >
-                Convertir en client →
+                Convertir en client <Icon name="arrow-right" />
               </button>
             )}
           </div>
@@ -145,7 +146,7 @@ export default function ProspectDetail() {
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-semibold text-gray-700">
-            💬 Interactions ({interactions.length})
+            <Icon name="chat-dots" /> Interactions ({interactions.length})
           </h2>
           <button
             onClick={() => setInterModal(true)}
@@ -161,7 +162,7 @@ export default function ProspectDetail() {
             {interactions.map((i) => (
               <div key={i.id} className="flex gap-3 p-3 rounded-lg bg-gray-50">
                 <span className="text-lg">
-                  {i.type === "appel" ? "📞" : i.type === "email" ? "📧" : i.type === "reunion" ? "🤝" : "📝"}
+                  <InteractionIcon type={i.type} />
                 </span>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-800">{i.sujet}</p>
@@ -186,10 +187,10 @@ export default function ProspectDetail() {
               onChange={(e) => setInterForm({ ...interForm, type: e.target.value })}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
             >
-              <option value="appel">📞 Appel</option>
-              <option value="email">📧 Email</option>
-              <option value="reunion">🤝 Réunion</option>
-              <option value="note">📝 Note</option>
+              <option value="appel">Appel</option>
+              <option value="email">Email</option>
+              <option value="reunion">Réunion</option>
+              <option value="note">Note</option>
             </select>
           </div>
           <div>
