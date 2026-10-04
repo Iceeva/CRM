@@ -49,6 +49,7 @@ app.use("/api/prospects", require("./routes/prospects"));
 app.use("/api/interactions", require("./routes/interactions"));
 app.use("/api/opportunities", require("./routes/opportunities"));
 app.use("/api/dashboard", require("./routes/dashboard"));
+app.use("/api/chatbot", require("./routes/chatbot"));
 
 // ---- Health check ----
 app.get("/api/health", async (req, res) => {
