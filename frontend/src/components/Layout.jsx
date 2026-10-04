@@ -5,13 +5,15 @@ import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import useStorageStatus from "../hooks/useStorageStatus";
+import Icon from "./Icon";
+import ChatWidget from "./ChatWidget";
 
 const navItems = [
-  { to: "/", label: "Tableau de bord", icon: "📊" },
-  { to: "/clients", label: "Clients", icon: "👥" },
-  { to: "/prospects", label: "Prospects", icon: "🎯" },
-  { to: "/opportunities", label: "Opportunités", icon: "💰" },
-  { to: "/interactions", label: "Interactions", icon: "💬" },
+  { to: "/", label: "Tableau de bord", icon: "speedometer2" },
+  { to: "/clients", label: "Clients", icon: "people" },
+  { to: "/prospects", label: "Prospects", icon: "bullseye" },
+  { to: "/opportunities", label: "Opportunités", icon: "cash-coin" },
+  { to: "/interactions", label: "Interactions", icon: "chat-dots" },
 ];
 
 export default function Layout() {
@@ -30,7 +32,7 @@ export default function Layout() {
       {/* ── Sidebar (desktop) ── */}
       <aside className="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 shadow-sm">
         <div className="p-6 border-b border-gray-100">
-          <h1 className="text-xl font-bold text-primary-700 tracking-tight">🏢 CRM Pro</h1>
+          <h1 className="text-xl font-bold text-primary-700 tracking-tight"><Icon name="building" className="mr-1" /> CRM Pro</h1>
           <p className="text-xs text-gray-400 mt-1">Gestion Relation Client</p>
         </div>
         <nav className="flex-1 p-4 space-y-1">
@@ -47,7 +49,7 @@ export default function Layout() {
                 }`
               }
             >
-              <span className="text-lg">{item.icon}</span>
+              <Icon name={item.icon} className="text-lg" />
               {item.label}
             </NavLink>
           ))}
@@ -62,7 +64,7 @@ export default function Layout() {
                 : "bg-amber-50 text-amber-700"
             }`}
           >
-            <span>{storageMode === "postgresql" ? "🐘" : "📄"}</span>
+            <Icon name={storageMode === "postgresql" ? "database-check" : "file-earmark-code"} />
             {storageMode === "postgresql" ? "PostgreSQL" : "JSON (local)"}
           </div>
         </div>
@@ -82,7 +84,7 @@ export default function Layout() {
               className="text-gray-400 hover:text-red-500 transition-colors"
               title="Déconnexion"
             >
-              🚪
+              <Icon name="box-arrow-right" />
             </button>
           </div>
         </div>
@@ -94,8 +96,8 @@ export default function Layout() {
           <div className="absolute inset-0 bg-black/30" onClick={() => setSidebarOpen(false)} />
           <aside className="relative w-64 h-full bg-white shadow-xl">
             <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-              <h1 className="text-xl font-bold text-primary-700">🏢 CRM Pro</h1>
-              <button onClick={() => setSidebarOpen(false)} className="text-gray-400 text-xl">✕</button>
+              <h1 className="text-xl font-bold text-primary-700"><Icon name="building" className="mr-1" /> CRM Pro</h1>
+              <button onClick={() => setSidebarOpen(false)} className="text-gray-400 text-xl"><Icon name="x-lg" title="Fermer le menu" /></button>
             </div>
             <nav className="p-4 space-y-1">
               {navItems.map((item) => (
@@ -112,7 +114,7 @@ export default function Layout() {
                     }`
                   }
                 >
-                  <span className="text-lg">{item.icon}</span>
+                  <Icon name={item.icon} className="text-lg" />
                   {item.label}
                 </NavLink>
               ))}
@@ -129,10 +131,10 @@ export default function Layout() {
             onClick={() => setSidebarOpen(true)}
             className="text-gray-500 hover:text-gray-700 text-xl"
           >
-            ☰
+            <Icon name="list" title="Ouvrir le menu" />
           </button>
-          <h1 className="text-lg font-bold text-primary-700">🏢 CRM Pro</h1>
-          <button onClick={handleLogout} className="text-gray-400 hover:text-red-500">🚪</button>
+          <h1 className="text-lg font-bold text-primary-700"><Icon name="building" className="mr-1" /> CRM Pro</h1>
+          <button onClick={handleLogout} className="text-gray-400 hover:text-red-500"><Icon name="box-arrow-right" title="Déconnexion" /></button>
         </header>
 
         {/* Page */}
@@ -140,6 +142,9 @@ export default function Layout() {
           <Outlet />
         </main>
       </div>
+
+      {/* Assistant IA (chatbot) */}
+      <ChatWidget />
     </div>
   );
 }
