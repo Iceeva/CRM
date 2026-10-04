@@ -14,11 +14,8 @@
  */
 const { BY_ID } = require("../intents");
 const { WRITE_HANDLERS } = require("../handlers");
-const { extractEntities } = require("../nlp/entities");
 const { analyze } = require("../nlp/tokenizer");
 const { EMAIL_RE } = require("../../middlewares/validate");
-const { MODEL } = require("./classifier");
-const storage = require("../../services/storageService");
 
 const PENDING_TTL = 6; // nombre de tours avant abandon automatique
 
@@ -200,7 +197,7 @@ async function handlePending(text, state, ctx, classification) {
     const ref = { type: chosen.type || "clients", id: chosen.id, nom: label };
 
     // Choix d'une intention (desambiguisation)
-    if (!chosen.type) return { switchTo: chosen.id, keepEntities: true };
+    if (!chosen.type) return { switchTo: chosen.id, carry: p.carry || {} };
 
     // Choix d'un enregistrement : on le range dans le slot qui attendait une reference
     if (p.intent && WRITE_HANDLERS[BY_ID[p.intent].handler]) {
@@ -209,8 +206,8 @@ async function handlePending(text, state, ctx, classification) {
       if (refSlot) slots[refSlot.name] = ref;
       return advanceWrite(p.intent, slots, ctx);
     }
-    // Choix d'un enregistrement pour une lecture : on relance l'intention avec ce nom
-    return { rerun: { intent: p.intent, entities: { ...p.entities, names: [ref.nom], residual: [] }, ref } };
+    // Choix d'un enregistrement pour une lecture : on relance l'intention sur CET enregistrement
+    return { rerun: { intent: p.intent, carry: p.carry || {}, ref } };
   }
 
   /* ---- desambiguisation d'intention ---- */
@@ -220,7 +217,7 @@ async function handlePending(text, state, ctx, classification) {
     const byLabel = opts.find((o) => analyze(o.label).clean === clean || clean.includes(analyze(o.label).clean));
     const byIdx = clean.match(/^(?:le |la )?(\d)\b/);
     const chosen = byLabel || (byIdx ? opts[parseInt(byIdx[1], 10) - 1] : null);
-    if (chosen) return { switchTo: chosen.id, keepEntities: true, carry: p.slots };
+    if (chosen) return { switchTo: chosen.id, carry: p.carry || {} };
     return { result: { reply: "Je n'ai pas compris votre choix.", quickReplies: opts.map((o) => o.label) }, pending: { ...p, ttl: PENDING_TTL } };
   }
 
