@@ -1,6 +1,8 @@
 /**
  * components/Pagination.jsx - Composant de pagination
  */
+import Icon from "./Icon";
+
 export default function Pagination({ page, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;
 
@@ -19,7 +21,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         disabled={page <= 1}
         className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
       >
-        ← Préc.
+        <Icon name="chevron-left" /> Préc.
       </button>
       {start > 1 && (
         <>
@@ -61,7 +63,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         disabled={page >= totalPages}
         className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition"
       >
-        Suiv. →
+        Suiv. <Icon name="chevron-right" />
       </button>
     </div>
   );
