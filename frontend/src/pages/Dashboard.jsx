@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
+import Icon, { InteractionIcon } from "../components/Icon";
 import {
   BarChart, Bar, PieChart, Pie, Cell,
   ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend
@@ -36,12 +37,12 @@ export default function Dashboard() {
   }
 
   const kpiCards = [
-    { label: "Clients", value: stats.totalClients, icon: "👥", color: "bg-blue-50 text-blue-700", link: "/clients" },
-    { label: "Prospects", value: stats.totalProspects, icon: "🎯", color: "bg-green-50 text-green-700", link: "/prospects" },
-    { label: "Opportunités", value: stats.totalOpportunities, icon: "💰", color: "bg-amber-50 text-amber-700", link: "/opportunities" },
-    { label: "Interactions", value: stats.totalInteractions, icon: "💬", color: "bg-purple-50 text-purple-700", link: "/interactions" },
-    { label: "CA Gagné", value: `${(stats.totalRevenue || 0).toLocaleString("fr-FR")} €`, icon: "📈", color: "bg-emerald-50 text-emerald-700" },
-    { label: "Opp. en cours", value: stats.oppEnCours, icon: "⏳", color: "bg-orange-50 text-orange-700" },
+    { label: "Clients", value: stats.totalClients, icon: "people", color: "bg-blue-50 text-blue-700", link: "/clients" },
+    { label: "Prospects", value: stats.totalProspects, icon: "bullseye", color: "bg-green-50 text-green-700", link: "/prospects" },
+    { label: "Opportunités", value: stats.totalOpportunities, icon: "cash-coin", color: "bg-amber-50 text-amber-700", link: "/opportunities" },
+    { label: "Interactions", value: stats.totalInteractions, icon: "chat-dots", color: "bg-purple-50 text-purple-700", link: "/interactions" },
+    { label: "CA Gagné", value: `${(stats.totalRevenue || 0).toLocaleString("fr-FR")} €`, icon: "graph-up-arrow", color: "bg-emerald-50 text-emerald-700" },
+    { label: "Opp. en cours", value: stats.oppEnCours, icon: "hourglass-split", color: "bg-orange-50 text-orange-700" },
   ];
 
   const prospectPieData = [
@@ -72,7 +73,8 @@ export default function Dashboard() {
             : "bg-amber-100 text-amber-700"
         }`}
       >
-        {stats.storageMode === "postgresql" ? "🐘 PostgreSQL" : "📄 JSON (mode local)"}
+        <Icon name={stats.storageMode === "postgresql" ? "database-check" : "file-earmark-code"} className="mr-1" />
+        {stats.storageMode === "postgresql" ? "PostgreSQL (Neon)" : "JSON (mode local)"}
       </div>
 
       {/* KPI Cards */}
@@ -83,7 +85,7 @@ export default function Dashboard() {
               key={kpi.label}
               className={`${kpi.color} rounded-xl p-4 transition hover:shadow-md`}
             >
-              <div className="text-2xl mb-2">{kpi.icon}</div>
+              <div className="text-2xl mb-2"><Icon name={kpi.icon} /></div>
               <p className="text-2xl font-bold">{kpi.value}</p>
               <p className="text-xs font-medium opacity-80 mt-1">{kpi.label}</p>
             </div>
@@ -154,7 +156,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-gray-700">Derniers prospects</h3>
             <Link to="/prospects" className="text-xs text-primary-600 hover:underline">
-              Voir tout →
+              Voir tout <Icon name="arrow-right" />
             </Link>
           </div>
           {stats.recentProspects?.length > 0 ? (
@@ -192,7 +194,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-gray-700">Dernières interactions</h3>
             <Link to="/interactions" className="text-xs text-primary-600 hover:underline">
-              Voir tout →
+              Voir tout <Icon name="arrow-right" />
             </Link>
           </div>
           {stats.recentInteractions?.length > 0 ? (
@@ -200,7 +202,7 @@ export default function Dashboard() {
               {stats.recentInteractions.map((i) => (
                 <div key={i.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">
                   <span className="text-lg">
-                    {i.type === "appel" ? "📞" : i.type === "email" ? "📧" : i.type === "reunion" ? "🤝" : "📝"}
+                    <InteractionIcon type={i.type} />
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-800 truncate">{i.sujet}</p>
