@@ -5,6 +5,7 @@ import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -31,7 +32,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-blue-50 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary-700">🏢 CRM Pro</h1>
+          <h1 className="text-3xl font-bold text-primary-700"><Icon name="building" className="mr-2" />CRM Pro</h1>
           <p className="text-gray-500 mt-2">Connectez-vous à votre espace</p>
         </div>
 
@@ -58,7 +59,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-              placeholder="••••••••"
+              placeholder="Votre mot de passe"
             />
           </div>
           <button

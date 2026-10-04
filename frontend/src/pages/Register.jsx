@@ -5,6 +5,7 @@ import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import Icon, { InteractionIcon } from "../components/Icon";
 
 export default function Register() {
   const { register } = useContext(AuthContext);
@@ -36,7 +37,7 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-blue-50 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary-700">🏢 CRM Pro</h1>
+          <h1 className="text-3xl font-bold text-primary-700"><Icon name="building" className="mr-2" />CRM Pro</h1>
           <p className="text-gray-500 mt-2">Créer un nouveau compte</p>
         </div>
 
