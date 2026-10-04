@@ -5,6 +5,7 @@
  */
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
+import Icon from "../components/Icon";
 import api from "../services/api";
 
 export default function useStorageStatus(intervalMs = 30000) {
@@ -26,12 +27,12 @@ export default function useStorageStatus(intervalMs = 30000) {
           if (newMode === "postgresql") {
             toast.success("Connexion rétablie. Utilisation de PostgreSQL.", {
               duration: 5000,
-              icon: "🐘",
+              icon: <Icon name="database-check" />,
             });
           } else {
             toast("Connexion à la base de données indisponible. Mode local activé (JSON).", {
               duration: 6000,
-              icon: "⚠️",
+              icon: <Icon name="exclamation-triangle" />,
               style: { background: "#fef3c7", color: "#92400e" },
             });
           }
@@ -39,7 +40,7 @@ export default function useStorageStatus(intervalMs = 30000) {
           // Premier chargement en mode JSON
           toast("Connexion à la base de données indisponible. Mode local activé (JSON).", {
             duration: 6000,
-            icon: "⚠️",
+            icon: <Icon name="exclamation-triangle" />,
             style: { background: "#fef3c7", color: "#92400e" },
           });
         }
