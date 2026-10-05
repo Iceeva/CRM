@@ -156,7 +156,7 @@ crm/
 |   |   |-- stores/               prismaStore, jsonCollectionStore, schema, normalize
 |   |   |-- utils/                id, pagination, asyncHandler, httpError, pick
 |   |   '-- chatbot/              nlp/, intents/, engine/, handlers/, llm/, service.js
-|   '-- test/                     38 tests : NLP, 113 intentions, dialogues, IA simulee, API
+|   '-- test/                     48 tests : NLP, 113 intentions, dialogues, IA simulee, API
 |-- frontend/
 |   |-- .env.example
 |   '-- src/
@@ -409,7 +409,7 @@ Plus de cas : [base de donnees](docs/DATABASE.md#6-depannage), [Vercel](docs/DEP
 | Erreurs | Reponses heterogenes | Gestionnaire central, codes HTTP corrects |
 | Code | Controleurs dupliques, `process.env` disperses | Configuration centralisee, facade de stockage, stores testables |
 | Donnees | `maintenance` orpheline, dates de 2024 | Jeu de demonstration coherent en 2026 |
-| Tests | Aucun | 38 tests automatises |
+| Tests | Aucun | 48 tests automatises |
 | Documentation | README court | README detaille et 7 guides |
 | Dashboard | Totaux simples | Pipeline, taux de conversion, agregats SQL |
 
