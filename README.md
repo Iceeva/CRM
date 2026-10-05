@@ -413,6 +413,18 @@ Plus de cas : [base de donnees](docs/DATABASE.md#6-depannage), [Vercel](docs/DEP
 | Documentation | README court | README detaille et 7 guides |
 | Dashboard | Totaux simples | Pipeline, taux de conversion, agregats SQL |
 
+### Migrer depuis la version 1
+
+| Ancien | Nouveau |
+|---|---|
+| `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` dans `backend/.env` | Une seule URL `DATABASE_URL` (et `DIRECT_URL`) : voir [docs/DATABASE.md](docs/DATABASE.md) |
+| `backend/schema.sql` | `backend/prisma/schema.prisma` et `backend/prisma/migrations/` |
+| `npm run init-db` execute du SQL | `npm run init-db` applique les migrations Prisma et insere les donnees de demo |
+| Tables creees a la main | `npm run db:deploy` |
+| Dependances dans `backend/package.json` seulement | `npm install` **a la racine** (workspace), puis `npm --prefix frontend install` |
+
+Les anciennes variables `DB_*` sont ignorees. Les routes et formats JSON de l'API existante sont inchanges : le frontend v1 reste compatible. Pour reprendre des donnees d'une base v1 existante, pointez `DATABASE_URL` vers cette base et lancez `npm run db:push` (verifiez d'abord les differences avec `npx prisma migrate diff`) ou importez-les dans une base Neon neuve avec `pg_dump` et `psql`.
+
 ---
 
 ## 17. Documentation detaillee
