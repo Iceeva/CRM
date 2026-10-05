@@ -196,18 +196,21 @@ async function respond({ text, state: rawState, user, history = [], now = new Da
     usedIntent = entities.no ? "deny" : "affirm";
   }
 
-  // 5. Confiance trop faible -> IA optionnelle, sinon message d'aide
-  if (!out && classification.confidence < env.CHATBOT_MIN_CONFIDENCE) {
+  // 5. Confiance trop faible, ou question hors CRM quand une IA est configuree
+  //    -> IA optionnelle ; sinon message d'aide (ou reponse locale "hors perimetre")
+  const offTopicWithAi = classification.intent === "off_topic" && llm.isEnabled() && env.AI_MODE !== "off";
+  if (!out && (classification.confidence < env.CHATBOT_MIN_CONFIDENCE || offTopicWithAi)) {
     const ai = llm.isEnabled() && env.AI_MODE !== "off"
       ? await llm.ask({ history, message: text, context: await aiContext(), purpose: "answer" })
       : null;
     if (ai) {
       engine = ai.provider;
       out = { result: { reply: ai.text, quickReplies: SUGGESTIONS.slice(0, 3) }, pending: null };
-    } else {
+    } else if (!offTopicWithAi) {
       out = { result: notUnderstood(classification), pending: null };
       usedIntent = "unknown";
     }
+    // IA indisponible sur une question hors sujet : le handler local "off_topic" repond
   }
 
   // 6. Execution normale
