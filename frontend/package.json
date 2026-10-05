@@ -1,9 +1,10 @@
 {
   "name": "crm-frontend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "axios": "^1.6.2",
+    "bootstrap-icons": "^1.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -35,5 +36,9 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6"
+  },
+  "description": "CRM Pro - interface React (Tailwind, Bootstrap Icons, assistant chatbot)",
+  "engines": {
+    "node": ">=18.18.0"
   }
 }
