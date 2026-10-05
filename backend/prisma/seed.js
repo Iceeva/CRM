@@ -6,8 +6,12 @@
  * Idempotent : utilise des "upsert" sur l'id, donc relancable sans doublons.
  *
  * Usage :
- *   npm run db:seed                  (depuis la racine)
+ *   npm run db:seed                       (depuis la racine)
  *   node backend/prisma/seed.js --reset   (vide d'abord les tables)
+ *
+ * SECURITE : le compte de demonstration admin@crm.com utilise le mot de passe
+ * public "admin123". En production, definissez SEED_ADMIN_PASSWORD pour le
+ * remplacer, puis changez-le ou supprimez ce compte apres la premiere connexion.
  */
 const fs = require("fs");
 const path = require("path");
@@ -15,6 +19,7 @@ const { env } = require("../src/config/env");
 const { getPrisma, isConfigured, disconnect } = require("../src/config/prisma");
 const { meta } = require("../src/stores/schema");
 const { toStorage } = require("../src/stores/normalize");
+const bcrypt = require("bcryptjs");
 
 // Ordre important : les tables parentes avant les tables enfants (cles etrangeres)
 const ORDER = ["users", "clients", "prospects", "interactions", "opportunities"];
@@ -36,6 +41,13 @@ async function seed({ reset = false, silent = false } = {}) {
     await prisma.prospect.deleteMany();
     await prisma.client.deleteMany();
     await prisma.user.deleteMany();
+  }
+
+  // Mot de passe administrateur personnalise (recommande hors demonstration)
+  if (process.env.SEED_ADMIN_PASSWORD) {
+    const hash = await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD, env.BCRYPT_ROUNDS);
+    (source.users || []).filter((u) => u.role === "admin").forEach((u) => (u.password = hash));
+    log("[seed] Mot de passe admin remplace par SEED_ADMIN_PASSWORD");
   }
 
   const summary = {};
@@ -64,7 +76,7 @@ if (require.main === module) {
   const reset = process.argv.includes("--reset");
   seed({ reset })
     .then(() => {
-      console.log("\n[seed] Termine. Compte de demo : admin@crm.com / admin123");
+      console.log(`\n[seed] Termine. Compte admin : admin@crm.com / ${process.env.SEED_ADMIN_PASSWORD ? "(SEED_ADMIN_PASSWORD)" : "admin123 (demo, a changer en production)"}`);
     })
     .catch((err) => {
       console.error("[seed] Echec :", err.message);
