@@ -16,7 +16,7 @@ Le backend doit tourner sur le port 5000 : le champ `proxy` de `package.json` re
 ```
 src/
 |-- index.js                    Point d'entree (importe bootstrap-icons et index.css)
-|-- App.jsx                     Routes (publiques, protegees)
+|-- App.jsx                     Routes publiques et protegees (ProtectedRoute y est defini)
 |-- context/AuthContext.js      Session : jeton, utilisateur, connexion, deconnexion
 |-- services/
 |   |-- api.js                  Instance axios, jeton automatique, deconnexion sur 401
@@ -26,7 +26,7 @@ src/
 |   |-- Layout.jsx              Navigation, mode de stockage, widget du chatbot
 |   |-- ChatWidget.jsx          Assistant : cartes, reponses rapides, navigation, etat de dialogue
 |   |-- Icon.jsx                Bootstrap Icons : <Icon name="people" /> et InteractionIcon
-|   |-- Modal.jsx, ConfirmDialog.jsx, Pagination.jsx, SearchBar.jsx, StatusBadge.jsx, ProtectedRoute.jsx
+|   '-- Modal.jsx, ConfirmDialog.jsx, Pagination.jsx, SearchBar.jsx
 '-- pages/                      Dashboard, Clients, ClientDetail, Prospects, ProspectDetail,
                                 Opportunities, Interactions, Login, Register
 ```
