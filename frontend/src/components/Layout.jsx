@@ -21,6 +21,8 @@ export default function Layout() {
   const storageMode = useStorageStatus(30000);
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // Incrementee apres une action du chatbot : remonte la page courante pour recharger ses donnees
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleLogout = () => {
     logout();
@@ -139,12 +141,12 @@ export default function Layout() {
 
         {/* Page */}
         <main className="flex-1 p-4 lg:p-8 overflow-auto">
-          <Outlet />
+          <Outlet key={refreshKey} />
         </main>
       </div>
 
       {/* Assistant IA (chatbot) */}
-      <ChatWidget />
+      <ChatWidget onDataChanged={() => setRefreshKey((k) => k + 1)} />
     </div>
   );
 }
