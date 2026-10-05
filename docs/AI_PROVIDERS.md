@@ -83,7 +83,7 @@ L'IA ne peut donc **jamais** creer, modifier ou supprimer une donnee : seules le
 |---|---|
 | Message de l'utilisateur | Oui, apres **masquage** des emails (`[email]`) et numeros de telephone (`[telephone]`) |
 | 6 derniers messages de la session (contexte) | Oui, meme masquage |
-| Statistiques agregees (nombre de clients, CA, taux de conversion) | Oui, pour que l'IA ne s'appuie pas sur des invitations a inventer |
+| Statistiques agregees (nombre de clients, CA, taux de conversion) | Oui, pour que ses reponses generales restent coherentes avec votre activite |
 | Noms, emails, montants individuels du CRM | **Non** par defaut. Oui seulement si `AI_SHARE_CRM_DATA=true` (mode `assist`) |
 | Cles d'API | Jamais exposees au frontend ni dans les logs |
 
